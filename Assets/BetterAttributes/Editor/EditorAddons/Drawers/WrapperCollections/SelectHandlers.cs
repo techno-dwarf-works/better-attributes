@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
 {
-    public class SelectWrappers : WrapperCollection<BaseSelectWrapper>
+    public class SelectHandlers : HandlerCollection<BaseSelectWrapper>
     {
         public void Update(SelectedItem<object> selectedItem)
         {

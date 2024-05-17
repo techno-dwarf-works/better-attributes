@@ -1,5 +1,4 @@
 ﻿using System;
-using Better.Commons.EditorAddons.Drawers.Caching;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -30,24 +29,6 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
                 _quaternion = buffer;
                 SetValueAndApply(_quaternion);
             }
-        }
-
-        public override void DrawField(Rect position, GUIContent label)
-        {
-            using (var change = new EditorGUI.ChangeCheckScope())
-            {
-                var eulerRotation = EditorGUI.Vector3Field(position, label, _quaternion.eulerAngles);
-                if (change.changed)
-                {
-                    _quaternion = Quaternion.Euler(eulerRotation);
-                    SetValueAndApply(_quaternion);
-                }
-            }
-        }
-
-        public override HeightCacheValue GetHeight(GUIContent label)
-        {
-            return HeightCacheValue.GetFull(EditorGUIUtility.singleLineHeight);
         }
 
         public override void SetProperty(SerializedProperty property, Type fieldType)

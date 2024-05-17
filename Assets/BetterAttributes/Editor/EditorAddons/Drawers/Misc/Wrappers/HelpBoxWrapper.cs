@@ -27,7 +27,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc.Wrappers
             copy.height = _helpBoxHeight;
             copy.y += _propertyHeight + EditorGUIUtility.standardVerticalSpacing;
 
-            ExtendedGUIUtility.HelpBox(copy, _helpBoxContent);
+            VisualElementUtility.HelpBox(copy, _helpBoxContent);
         }
 
         public override void PostDraw()
@@ -37,7 +37,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc.Wrappers
         public override HeightCacheValue GetHeight(GUIContent label)
         {
             _propertyHeight = EditorGUI.GetPropertyHeight(_property, label);
-            _helpBoxHeight = ExtendedGUIUtility.GetHelpBoxHeight(_helpBoxContent);
+            _helpBoxHeight = VisualElementUtility.GetHelpBoxHeight(_helpBoxContent);
             return HeightCacheValue.GetFull(_propertyHeight + _helpBoxHeight + EditorGUIUtility.standardVerticalSpacing);
         }
     }

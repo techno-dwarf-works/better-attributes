@@ -17,9 +17,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
     [MultiCustomPropertyDrawer(typeof(DropdownAttribute))]
     public class SelectDrawer : SelectDrawerBase<SelectAttributeBase>
     {
-        protected override WrapperCollection<BaseSelectWrapper> GenerateCollection()
+        protected override HandlerCollection<BaseSelectWrapper> GenerateCollection()
         {
-            return new SelectWrappers();
+            return new SelectHandlers();
         }
         
         protected override void DrawField(Rect position, SerializedProperty property, GUIContent label)

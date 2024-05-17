@@ -30,7 +30,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         protected List<object> _selectionObjects;
         protected SetupStrategy _setupStrategy;
 
-        protected SelectWrappers Collection => _wrappers as SelectWrappers;
+        protected SelectHandlers Collection => _handlers as SelectHandlers;
 
         protected SelectDrawerBase(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)
         {
@@ -60,11 +60,11 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
                         if (!_setupStrategy.SkipFieldDraw())
                         {
                             var includeChildren = property.isExpanded;
-                            offset = EditorGUI.GetPropertyHeight(property, includeChildren) + ExtendedGUIUtility.SpaceHeight;
+                            offset = EditorGUI.GetPropertyHeight(property, includeChildren) + VisualElementUtility.SpaceHeight;
                         }
                     }
 
-                    ExtendedGUIUtility.NotSupportedAttribute(position, property, label, GetFieldOrElementType(), _attribute.GetType(), offset);
+                    VisualElementUtility.NotSupportedBox(property, GetFieldOrElementType(), _attribute.GetType());
                     return false;
                 }
 
@@ -119,7 +119,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         protected override void Deconstruct()
         {
             DropdownWindow.CloseInstance();
-            _wrappers?.Deconstruct();
+            _handlers?.Deconstruct();
             _selectionObjects = null;
             _setupStrategy = null;
         }
@@ -239,9 +239,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             SetNeedUpdate();
         }
 
-        protected override WrapperCollection<BaseSelectWrapper> GenerateCollection()
+        protected override HandlerCollection<BaseSelectWrapper> GenerateCollection()
         {
-            return new SelectWrappers();
+            return new SelectHandlers();
         }
 
         protected void SetNeedUpdate()

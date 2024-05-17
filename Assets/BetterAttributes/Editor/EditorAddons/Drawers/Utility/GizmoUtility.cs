@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class GizmoUtility : BaseUtility<GizmoUtility>
+    public class GizmoUtility : SerializedPropertyUtility<GizmoUtility>
     {
         protected override BaseWrappersTypeCollection GenerateCollection()
         {

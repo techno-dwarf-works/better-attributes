@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class PreviewUtility : BaseUtility<PreviewUtility>
+    public class PreviewUtility : SerializedPropertyUtility<PreviewUtility>
     {
         protected override BaseWrappersTypeCollection GenerateCollection()
         {
@@ -18,9 +18,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Utility
                 {
                     typeof(PreviewAttribute), new Dictionary<Type, Type>(AssignableFromComparer.Instance)
                     {
-                        { typeof(Sprite), typeof(SpriteWrapper) },
-                        { typeof(Texture2D), typeof(TextureWrapper) },
-                        { typeof(Component), typeof(AssetWrapper) }
+                        { typeof(Sprite), typeof(SpriteHandler) },
+                        { typeof(Texture2D), typeof(TextureHandler) },
+                        { typeof(Component), typeof(AssetHandler) }
                     }
                 }
             };

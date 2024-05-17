@@ -4,9 +4,11 @@ using System.Reflection;
 using Better.Attributes.Runtime;
 using Better.Commons.EditorAddons.CustomEditors.Attributes;
 using Better.Commons.EditorAddons.CustomEditors.Base;
+using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
 
 namespace Better.Attributes.EditorAddons.CustomEditors
@@ -16,7 +18,7 @@ namespace Better.Attributes.EditorAddons.CustomEditors
     {
         private Dictionary<int, IEnumerable<KeyValuePair<MethodInfo, EditorButtonAttribute>>> _methodButtonsAttributes =
             new Dictionary<int, IEnumerable<KeyValuePair<MethodInfo, EditorButtonAttribute>>>();
-        
+
         public BetterButtonsEditor(Object target, SerializedObject serializedObject) : base(target, serializedObject)
         {
         }
@@ -31,75 +33,71 @@ namespace Better.Attributes.EditorAddons.CustomEditors
             _methodButtonsAttributes = EditorButtonUtility.GetSortedMethodAttributes(type);
         }
 
-        private void DrawButton(KeyValuePair<MethodInfo, EditorButtonAttribute> button, GUIStyle guiStyle)
+        private Button DrawButton(MethodInfo methodInfo, EditorButtonAttribute attribute)
         {
-            var attribute = button.Value;
-            var methodInfo = button.Key;
-
-            if (GUILayout.Button(attribute.GetDisplayName(methodInfo.PrettyMemberName()), guiStyle))
+            var button = new Button
             {
-                using (var changeScope = new EditorGUI.ChangeCheckScope())
-                {
-                    methodInfo.Invoke(_target, attribute.InvokeParams);
-                    if (changeScope.changed)
-                    {
-                        EditorUtility.SetDirty(_target);
-                        _serializedObject.ApplyModifiedProperties();
-                    }
-                }
-            }
+                text = attribute.GetDisplayName(methodInfo.PrettyMemberName())
+            };
+            button.RegisterCallback<ClickEvent, (MethodInfo, EditorButtonAttribute)>(OnClick, (methodInfo, attribute));
+            return button;
         }
 
-        private void DrawButtons(Dictionary<int, IEnumerable<KeyValuePair<MethodInfo, EditorButtonAttribute>>> buttons)
+        private void OnClick(ClickEvent clickEvent, (MethodInfo methodInfo, EditorButtonAttribute attribute) data)
         {
-            var guiStyle = new GUIStyle(GUI.skin.button)
-            {
-                stretchWidth = true,
-                richText = true,
-                wordWrap = true
-            };
+            _serializedObject.Update();
+            data.methodInfo.Invoke(_target, data.attribute.InvokeParams);
+            EditorUtility.SetDirty(_target);
+            _serializedObject.ApplyModifiedProperties();
+        }
+
+
+        private VisualElement DrawButtons(Dictionary<int, IEnumerable<KeyValuePair<MethodInfo, EditorButtonAttribute>>> buttons)
+        {
+            var container = new VisualElement();
 
             foreach (var button in buttons)
             {
                 if (button.Key == -1)
                 {
                     var grouped = button.Value.GroupBy(key => key.Key, pair => pair.Value,
-                        (info, attributes) =>
-                            new KeyValuePair<MethodInfo,
-                                IEnumerable<EditorButtonAttribute>>(info, attributes));
-                    EditorGUILayout.BeginVertical();
+                        (info, attributes) => new KeyValuePair<MethodInfo, IEnumerable<EditorButtonAttribute>>(info, attributes));
+                    var verticalElement = VisualElementUtility.CreateVerticalGroup();
 
                     foreach (var group in grouped)
                     {
-                        EditorGUILayout.BeginHorizontal();
+                        var horizontalElement = VisualElementUtility.CreateHorizontalGroup();
+                        verticalElement.Add(horizontalElement);
 
                         foreach (var attribute in group.Value)
-                            DrawButton(new KeyValuePair<MethodInfo, EditorButtonAttribute>(group.Key, attribute),
-                                guiStyle);
-                        EditorGUILayout.EndHorizontal();
+                        {
+                            var buttonElement = DrawButton(group.Key, attribute);
+                            horizontalElement.Add(buttonElement);
+                        }
                     }
-
-                    EditorGUILayout.EndVertical();
                 }
                 else
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    foreach (var pair in button.Value) DrawButton(pair, guiStyle);
-                    EditorGUILayout.EndHorizontal();
+                    var horizontalElement = VisualElementUtility.CreateHorizontalGroup();
+                    foreach (var (key, value) in button.Value)
+                    {
+                        var element = DrawButton(key, value);
+                        horizontalElement.Add(element);
+                    }
                 }
             }
+
+            return container;
         }
 
-        public override void OnInspectorGUI()
+        public override VisualElement CreateInspectorGUI()
         {
-            _serializedObject.Update();
-            DrawButtons(_methodButtonsAttributes);
-            _serializedObject.ApplyModifiedProperties();
+            var buttons = DrawButtons(_methodButtonsAttributes);
+            return buttons;
         }
 
-        public override void OnChanged()
+        public override void OnChanged(SerializedObject serializedObject)
         {
-            
         }
     }
 }

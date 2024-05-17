@@ -12,7 +12,7 @@ using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select.Wrappers
 {
-    public abstract class BaseSelectWrapper : UtilityWrapper
+    public abstract class BaseSelectWrapper : SerializedPropertyHandler
     {
         protected SerializedProperty _property;
         protected FieldInfo _fieldInfo;
@@ -39,9 +39,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.Wrappers
             var propertyHeight = GetPropertyHeight(copy);
             if (_setupStrategy == null || !_setupStrategy.CheckSupported())
             {
-                var message = ExtendedGUIUtility.NotSupportedMessage(copy.name, type, _attribute.GetType());
-                propertyHeight += ExtendedGUIUtility.GetHelpBoxHeight(EditorGUIUtility.currentViewWidth, message, IconType.ErrorMessage);
-                propertyHeight += ExtendedGUIUtility.SpaceHeight;
+                var message = VisualElementUtility.NotSupportedMessage(copy.name, type, _attribute.GetType());
+                propertyHeight += VisualElementUtility.GetHelpBoxHeight(EditorGUIUtility.currentViewWidth, message, IconType.ErrorMessage);
+                propertyHeight += VisualElementUtility.SpaceHeight;
             }
 
             var full = HeightCacheValue.GetFull(propertyHeight);
@@ -68,7 +68,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.Wrappers
 
         public virtual bool Verify()
         {
-            return _property.Verify();
+            return _property != null && _property.Verify();
         }
 
         public override void Deconstruct()

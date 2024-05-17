@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using Better.Attributes.EditorAddons.Drawers.Gizmo;
 using Better.Commons.EditorAddons.Drawers.Base;
-using Better.Commons.EditorAddons.Drawers.Caching;
 using UnityEditor;
-using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
 {
-    public class GizmoWrappers : WrapperCollection<GizmoWrapper>
+    public class GizmoHandlers : HandlerCollection<GizmoWrapper>
     {
         public void Apply(SceneView sceneView)
         {
@@ -58,19 +56,11 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             return false;
         }
 
-        public void SwitchShowMode(SerializedProperty property)
+        public void SetMode(SerializedProperty property, bool value)
         {
             if (TryGetValue(property, out var gizmoWrapper))
             {
-                gizmoWrapper.Wrapper.SwitchShowMode();
-            }
-        }
-
-        public void DrawField(Rect position, SerializedProperty property, GUIContent label)
-        {
-            if (TryGetValue(property, out var gizmoWrapper))
-            {
-                gizmoWrapper.Wrapper.DrawField(position, label);
+                gizmoWrapper.Wrapper.SetMode(value);
             }
         }
 
@@ -82,16 +72,6 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             }
 
             return false;
-        }
-
-        public HeightCacheValue GetHeight(SerializedProperty property, GUIContent label)
-        {
-            if (TryGetValue(property, out var wrapper))
-            {
-                return wrapper.Wrapper.GetHeight(label);
-            }
-
-            return HeightCacheValue.GetAdditive(0);
         }
     }
 }

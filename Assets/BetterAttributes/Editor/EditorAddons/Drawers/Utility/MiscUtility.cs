@@ -9,7 +9,7 @@ using Better.Commons.Runtime.Comparers;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class MiscUtility : BaseUtility<MiscUtility>
+    public class MiscUtility : SerializedPropertyUtility<MiscUtility>
     {
         protected override BaseWrappersTypeCollection GenerateCollection()
         {

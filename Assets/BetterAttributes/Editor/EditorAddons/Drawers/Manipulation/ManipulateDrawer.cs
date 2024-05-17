@@ -31,7 +31,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
 
         protected override bool PreDraw(ref Rect position, SerializedProperty property, GUIContent label)
         {
-            _wrappers ??= GenerateCollection();
+            _handlers ??= GenerateCollection();
             var wrapper = GetWrapper(property); 
             wrapper.PreDraw(ref position);
             
@@ -55,9 +55,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
             wrapper.PostDraw();
         }
 
-        protected override WrapperCollection<ManipulateWrapper> GenerateCollection()
+        protected override HandlerCollection<ManipulateWrapper> GenerateCollection()
         {
-            return new WrapperCollection<ManipulateWrapper>();
+            return new HandlerCollection<ManipulateWrapper>();
         }
     }
 }

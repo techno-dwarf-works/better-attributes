@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class DrawInspectorUtility : BaseUtility<DrawInspectorUtility>
+    public class DrawInspectorUtility : SerializedPropertyUtility<DrawInspectorUtility>
     {
         protected override BaseWrappersTypeCollection GenerateCollection()
         {
@@ -17,7 +17,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Utility
             {
                 {
                     typeof(DrawInspectorAttribute),
-                    new Dictionary<Type, Type>(AssignableFromComparer.Instance) { { typeof(Object), typeof(DrawInspectorWrapper) } }
+                    new Dictionary<Type, Type>(AssignableFromComparer.Instance) { { typeof(Object), typeof(DrawInspectorHandler) } }
                 }
             };
         }

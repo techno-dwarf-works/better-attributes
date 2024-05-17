@@ -2,6 +2,7 @@
 using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.EditorAddons.Drawers.WrapperCollections;
 using Better.Attributes.Runtime.Preview;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Attributes;
 using Better.Commons.EditorAddons.Drawers.Base;
 using Better.Commons.EditorAddons.Drawers.Caching;
@@ -9,82 +10,82 @@ using Better.Commons.EditorAddons.Enums;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Drawers.Attributes;
+using Better.Commons.Runtime.Extensions;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Preview
 {
     [MultiCustomPropertyDrawer(typeof(PreviewAttribute))]
-    public class PreviewDrawer : MultiFieldDrawer<BasePreviewWrapper>
+    public class PreviewDrawer : MultiFieldDrawer<PreviewHandler>
     {
-        private protected bool _objectChanged;
-        private float _previewSize;
-        public PreviewWrappers Collection => _wrappers as PreviewWrappers;
+        public PreviewHandlers Collection => _handlers as PreviewHandlers;
 
-        private const string Message = "Preview not available for empty field";
 
         protected override void Deconstruct()
         {
-            _wrappers.Deconstruct();
+            _handlers.Deconstruct();
         }
 
-        protected override bool PreDraw(ref Rect position, SerializedProperty property, GUIContent label)
+        protected override void PopulateContainer(ElementsContainer container)
         {
             var fieldType = _fieldInfo.FieldType;
             var attributeType = _attribute.GetType();
+            var property = container.Property;
             if (!PreviewUtility.Instance.IsSupported(fieldType))
             {
-                ExtendedGUIUtility.NotSupportedAttribute(position, property, label, fieldType, attributeType);
-                return false;
+                VisualElementUtility.NotSupportedBox(property, fieldType, attributeType);
+                return;
             }
 
+            if (!container.TryGetByTag(property, out var propertyElement))
+            {
+                return;
+            }
+
+            if (!propertyElement.Elements.TryFind(out PropertyField propertyField))
+            {
+                return;
+            }
+
+            propertyField.RegisterCallback<SerializedPropertyChangeEvent, SerializedProperty>(OnPropertyChanged, property);
             var cache = ValidateCachedProperties(property, PreviewUtility.Instance);
-            if (!cache.IsValid)
-            {
-            }
 
-            EditorGUI.BeginChangeCheck();
-            _previewSize = ((PreviewAttribute)_attribute).PreviewSize;
-            if (!Collection.ValidateObject(property))
-            {
-                var offset = EditorGUI.GetPropertyHeight(property, label, true) + ExtendedGUIUtility.SpaceHeight;
-                ExtendedGUIUtility.HelpBoxFromRect(position, property, label, Message, IconType.WarningMessage, offset);
-                return true;
-            }
+            var previewSize = ((PreviewAttribute)_attribute).PreviewSize;
 
-            label.image = IconType.View.GetIcon();
-            var copy = ExtendedGUIUtility.GetClickRect(position, label);
-            copy.height = EditorGUIUtility.singleLineHeight;
-            Collection.PreDraw(copy, property, _previewSize, _objectChanged);
+            Collection.ValidateObject(property, container);
 
-            return true;
+            var image = VisualElementUtility.AddIcon(propertyField, IconType.View);
+            image.RegisterCallback<PointerDownEvent, (SerializedProperty, float)>(OnPointerDown, (property, previewSize));
+            image.RegisterCallback<PointerUpEvent, SerializedProperty>(OnPointerUp, property);
+            image.RegisterCallback<PointerLeaveEvent, SerializedProperty>(OnPointerLeave, property);
         }
 
-        protected override HeightCacheValue GetPropertyHeight(SerializedProperty property, GUIContent label)
+        private void OnPointerLeave(PointerLeaveEvent leaveEvent, SerializedProperty property)
         {
-            if (!Collection.ValidateObject(property))
-            {
-                var additive = ExtendedGUIUtility.GetHelpBoxHeight(EditorGUIUtility.currentViewWidth, Message, IconType.WarningMessage);
-                var height = HeightCacheValue.GetAdditive(additive + ExtendedGUIUtility.SpaceHeight * 2);
-                return height;
-            }
-
-            return HeightCacheValue.GetAdditive(0);
+            Collection.ClosePreviewWindow(property);
         }
 
-        protected override Rect PreparePropertyRect(Rect original)
+        private void OnPointerUp(PointerUpEvent upEvent, SerializedProperty property)
         {
-            return original;
+            Collection.ClosePreviewWindow(property);
         }
 
-        protected override void PostDraw(Rect position, SerializedProperty property, GUIContent label)
+        private void OnPointerDown(PointerDownEvent downEvent, (SerializedProperty property, float previewSize) data)
         {
-            _objectChanged = EditorGUI.EndChangeCheck();
+            Collection.OpenPreviewWindow(downEvent.position, data.property, data.previewSize);
         }
 
-        protected override WrapperCollection<BasePreviewWrapper> GenerateCollection()
+        private void OnPropertyChanged(SerializedPropertyChangeEvent changeEvent, SerializedProperty property)
         {
-            return new PreviewWrappers();
+            Collection.ClosePreviewWindow(property);
+        }
+
+        protected override HandlerCollection<PreviewHandler> GenerateCollection()
+        {
+            return new PreviewHandlers();
         }
 
         public PreviewDrawer(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)

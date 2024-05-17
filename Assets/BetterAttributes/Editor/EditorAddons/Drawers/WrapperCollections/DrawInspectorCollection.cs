@@ -1,20 +1,12 @@
 ﻿using Better.Attributes.EditorAddons.Drawers.DrawInspector;
 using Better.Commons.EditorAddons.Drawers.Base;
 using UnityEditor;
-using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
 {
-    public class DrawInspectors : WrapperCollection<DrawInspectorWrapper>
+    public class DrawInspectorCollection : HandlerCollection<DrawInspectorHandler>
     {
-        public void PostDraw(SerializedProperty serializedProperty, Rect rect)
-        {
-            if (TryGetValue(serializedProperty, out var collectionValue))
-            {
-                collectionValue.Wrapper.PostDraw(rect);
-            }
-        }
-
         public void SetOpen(SerializedProperty serializedProperty, bool value)
         {
             if (TryGetValue(serializedProperty, out var collectionValue))
@@ -33,22 +25,22 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             return false;
         }
 
-        public void SetProperty(SerializedProperty property)
+        public VisualElement GetInspectorContainer(SerializedProperty property)
         {
             if (TryGetValue(property, out var wrapper))
             {
-                wrapper.Wrapper.SetProperty(property);
+                return wrapper.Wrapper.GetInspectorContainer(property);
             }
+
+            return null;
         }
 
-        public float GetHeight(SerializedProperty property)
+        public void SetupInspector(SerializedProperty property)
         {
             if (TryGetValue(property, out var wrapper))
             {
-                return wrapper.Wrapper.GetHeight();
+                wrapper.Wrapper.SetupInspector();
             }
-
-            return 0;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Better.Attributes.EditorAddons.Drawers.Utility;
-using Better.Commons.EditorAddons.Drawers.Caching;
 using Better.Commons.EditorAddons.Drawers.Utility;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.Runtime.Utility;
@@ -13,24 +12,24 @@ using GizmoUtility = Better.Attributes.EditorAddons.Drawers.Utility.GizmoUtility
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
-    public abstract class GizmoWrapper : UtilityWrapper
+    public abstract class GizmoWrapper : SerializedPropertyHandler
     {
         private protected SerializedProperty _serializedProperty;
 
         private protected readonly Quaternion _defaultRotation = Quaternion.identity;
         private protected readonly Vector3 _defaultPosition = Vector3.zero;
-        private bool _showInSceneView = true;
         private Type _fieldType;
 
         private string _compiledName;
 
-        public bool ShowInSceneView => _showInSceneView;
+        public bool ShowInSceneView { get; private set; }
 
         public virtual void SetProperty(SerializedProperty property, Type fieldType)
         {
             _serializedProperty = property;
             _fieldType = fieldType;
             _compiledName = GetCompiledName();
+            ShowInSceneView = true;
         }
 
         private string GetCompiledName()
@@ -48,14 +47,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             return string.Empty;
         }
 
-        public virtual void DrawField(Rect position, GUIContent label)
+        public void SetMode(bool value)
         {
-            EditorGUI.PropertyField(position, _serializedProperty, label, true);
-        }
-
-        public void SwitchShowMode()
-        {
-            _showInSceneView = !ShowInSceneView;
+            ShowInSceneView = value;
         }
 
         public abstract void Apply(SceneView sceneView);
@@ -129,11 +123,6 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
         {
             return rotation * (position + Vector3.up * HandleUtility.GetHandleSize(position) +
                                sceneView.camera.transform.right * 0.2f * HandleUtility.GetHandleSize(position));
-        }
-
-        public virtual HeightCacheValue GetHeight(GUIContent label)
-        {
-            return HeightCacheValue.GetAdditive(0f);
         }
     }
 }

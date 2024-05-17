@@ -17,7 +17,7 @@ using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class SelectUtility : BaseUtility<SelectUtility>
+    public class SelectUtility : SerializedPropertyUtility<SelectUtility>
     {
         public const string NotSupported = "Not supported";
         public const string Null = "null";

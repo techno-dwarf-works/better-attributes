@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Manipulation.Wrappers
 {
-    public abstract class ManipulateWrapper : UtilityWrapper
+    public abstract class ManipulateWrapper : SerializedPropertyHandler
     {
         protected SerializedProperty _property;
         protected ManipulateAttribute _attribute;

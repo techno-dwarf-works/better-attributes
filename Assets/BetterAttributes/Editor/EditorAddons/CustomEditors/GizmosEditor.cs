@@ -6,6 +6,7 @@ using Better.Commons.EditorAddons.CustomEditors.Base;
 using Better.Commons.EditorAddons.Extensions;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.CustomEditors
 {
@@ -29,7 +30,7 @@ namespace Better.Attributes.EditorAddons.CustomEditors
 
         private void CheckAttribute()
         {
-            var attributeFound = AttributeFound();
+            var attributeFound = IsAttributeFound();
 
             if (attributeFound && !(_serializedObject.targetObject is ScriptableObject))
             {
@@ -37,7 +38,7 @@ namespace Better.Attributes.EditorAddons.CustomEditors
             }
         }
 
-        private bool AttributeFound()
+        private bool IsAttributeFound()
         {
             var iterator = _serializedObject.GetIterator().Copy();
             var attributeFound = false;
@@ -57,15 +58,17 @@ namespace Better.Attributes.EditorAddons.CustomEditors
             return attributeFound;
         }
 
-        public override void OnInspectorGUI()
+        public override VisualElement CreateInspectorGUI()
         {
             if (_hideTransformDrawer != null)
             {
-                _hideTransformDrawer.DrawHideTransformButton();
+                return _hideTransformDrawer.DrawHideTransformButton();
             }
+
+            return null;
         }
 
-        public override void OnChanged()
+        public override void OnChanged(SerializedObject serializedObject)
         {
             CheckAttribute();
         }

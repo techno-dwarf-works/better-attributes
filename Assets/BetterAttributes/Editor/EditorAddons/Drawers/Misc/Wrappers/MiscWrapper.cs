@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc.Wrappers
 {
-    public abstract class MiscWrapper : UtilityWrapper
+    public abstract class MiscWrapper : SerializedPropertyHandler
     {
         protected SerializedProperty _property;
         protected MiscAttribute _attribute;

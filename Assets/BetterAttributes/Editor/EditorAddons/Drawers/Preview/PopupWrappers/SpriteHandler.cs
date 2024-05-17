@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Better.Attributes.EditorAddons.Drawers.Preview
 {
-    public class SpriteWrapper : PreviewWrapper
+    public class SpriteHandler : PreviewHandler
     {
         private protected override Texture GenerateTexture(Object drawnObject, float size)
         {

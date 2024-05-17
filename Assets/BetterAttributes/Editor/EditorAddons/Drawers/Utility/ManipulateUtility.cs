@@ -8,7 +8,7 @@ using Better.Commons.Runtime.Comparers;
 
 namespace Better.Attributes.EditorAddons.Drawers.Utility
 {
-    public class ManipulateUtility : BaseUtility<ManipulateUtility>
+    public class ManipulateUtility : SerializedPropertyUtility<ManipulateUtility>
     {
         protected override BaseWrappersTypeCollection GenerateCollection()
         {
