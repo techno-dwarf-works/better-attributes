@@ -36,17 +36,12 @@ namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
                 return;
             }
 
-            if (!container.TryGetByTag(property, out var propertyElement))
+            if (!container.TryGetPropertyField(out var propertyElement))
             {
                 return;
             }
 
-            if (!propertyElement.Elements.TryFind(out PropertyField propertyField))
-            {
-                return;
-            }
-
-            propertyField.RegisterCallback<SerializedPropertyChangeEvent, SerializedProperty>(OnPropertyChanged, property);
+            propertyElement.RegisterCallback<SerializedPropertyChangeEvent, SerializedProperty>(OnPropertyChanged, property);
             var cache = ValidateCachedProperties(property, DrawInspectorUtility.Instance);
 
             var inspectorElement = Collection.GetInspectorContainer(property);
@@ -57,7 +52,7 @@ namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
             var isOpen = Collection.IsOpen(property);
             Collection.SetOpen(property, isOpen);
             var iconType = isOpen ? IconType.Minus : IconType.PlusMore;
-            VisualElementUtility.AddClickableIcon(propertyField, iconType, property, OnIconClickEvent);
+            container.AddClickableIcon(iconType, property, OnIconClickEvent);
         }
 
         private void OnPropertyChanged(SerializedPropertyChangeEvent changeEvent, SerializedProperty property)

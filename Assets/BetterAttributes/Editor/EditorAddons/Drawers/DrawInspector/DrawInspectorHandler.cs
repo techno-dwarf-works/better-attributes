@@ -5,6 +5,7 @@ using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
@@ -65,8 +66,8 @@ namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
                 return;
             }
 
-            var editor = Editor.CreateEditor(_property.objectReferenceValue);
-            var editorElement = editor.CreateInspectorGUI();
+            var editorElement = new VisualElement();
+            InspectorElement.FillDefaultInspector(editorElement, new SerializedObject(_property.objectReferenceValue), null);
             UpdateVisible(_rootElement);
             _rootElement.Add(editorElement);
         }

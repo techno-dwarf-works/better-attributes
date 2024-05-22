@@ -1,0 +1,16 @@
+{
+    "name": "BetterCommons.Runtime",
+    "rootNamespace": "Better.Commons.Runtime",
+    "references": [
+        "GUID:01df13aca8d01e24a911bcc3e8277031"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

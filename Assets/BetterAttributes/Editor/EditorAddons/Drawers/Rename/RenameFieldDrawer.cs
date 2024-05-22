@@ -1,9 +1,13 @@
 ﻿using System.Reflection;
 using Better.Attributes.Runtime.Rename;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Attributes;
 using Better.Commons.EditorAddons.Drawers.Base;
+using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Drawers.Attributes;
+using Better.Commons.Runtime.Extensions;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Rename
@@ -15,20 +19,14 @@ namespace Better.Attributes.EditorAddons.Drawers.Rename
         {
         }
 
-        protected override bool PreDraw(ref Rect position, SerializedProperty property, GUIContent label)
+        protected override void PopulateContainer(ElementsContainer container)
         {
-            var rename = (_attribute as RenameFieldAttribute)?.Name;
-            label.text = rename;
-            return true;
-        }
-
-        protected override Rect PreparePropertyRect(Rect original)
-        {
-            return original;
-        }
-
-        protected override void PostDraw(Rect position, SerializedProperty property, GUIContent label)
-        {
+            if (!container.TryGetPropertyField(out var propertyElement))
+            {
+                return;
+            }
+            var newName = (_attribute as RenameFieldAttribute)?.Name;
+            propertyElement.label = newName;
         }
 
         public RenameFieldDrawer(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)

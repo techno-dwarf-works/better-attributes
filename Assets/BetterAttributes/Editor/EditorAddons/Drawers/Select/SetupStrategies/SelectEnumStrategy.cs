@@ -36,7 +36,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             public int Value { get; }
         }
 
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return true;
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Better.Attributes.EditorAddons.Drawers.Manipulation.Wrappers;
+using Better.Attributes.EditorAddons.Drawers.Manipulation;
 using Better.Attributes.Runtime.Manipulation;
 using Better.Commons.EditorAddons.Drawers.Utility;
 using Better.Commons.EditorAddons.Drawers.WrappersTypeCollection;

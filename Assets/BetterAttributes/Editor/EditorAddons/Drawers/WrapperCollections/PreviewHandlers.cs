@@ -12,7 +12,7 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
         {
             if (TryGetValue(property, out var wrapper))
             {
-                wrapper.Wrapper.OpenPreviewWindow(position, property, previewSize);
+                wrapper.Wrapper.OpenPreviewWindow(property, position, previewSize);
             }
         }
         
@@ -21,6 +21,14 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             if (TryGetValue(property, out var wrapper))
             {
                 wrapper.Wrapper.ClosePreviewWindow();
+            }
+        }
+        
+        public void UpdatePropertyPreviewWindow(SerializedProperty property)
+        {
+            if (TryGetValue(property, out var wrapper))
+            {
+                wrapper.Wrapper.UpdatePropertyPreviewWindow(property);
             }
         }
 

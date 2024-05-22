@@ -2,11 +2,18 @@
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Cbasehandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Cbasewrappers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Clocalhandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Clocalwrappers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Cworldhandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cgizmo_005Cworldwrappers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cmanipulation_005Chandlers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cmisc_005Chandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cpreview_005Cbasewrappers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cpreview_005Chandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cpreview_005Cpopupwrappers/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cselect_005Chandlers/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cbetterattributes_005Ceditor_005Ceditoraddons_005Cdrawers_005Cselect_005Csetupstrategies_005Cdropdowncollection/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cplugins/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=assets_005Cplugins_005Cbetterattributes/@EntryIndexedValue">True</s:Boolean>

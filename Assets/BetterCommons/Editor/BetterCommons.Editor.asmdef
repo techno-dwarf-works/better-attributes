@@ -1,0 +1,20 @@
+{
+    "name": "BetterCommons.Editor",
+    "rootNamespace": "Better.Commons.EditorAddons",
+    "references": [
+        "GUID:01df13aca8d01e24a911bcc3e8277031",
+        "GUID:6adbd2a12d24f5d429f7ea1b1086e835",
+        "GUID:8bd4b41f8da90144d9006c4d926c9679"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

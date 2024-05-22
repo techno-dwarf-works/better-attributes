@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Better.Attributes.EditorAddons.Comparers;
+using Better.Attributes.EditorAddons.Drawers.Select;
 using Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies;
-using Better.Attributes.EditorAddons.Drawers.Select.Wrappers;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.EditorAddons.Drawers.Utility;
 using Better.Commons.EditorAddons.Drawers.WrappersTypeCollection;

@@ -31,7 +31,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             _dropdownAttribute = (DropdownAttribute)selectAttributeBase;
         }
         
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return true;
         }

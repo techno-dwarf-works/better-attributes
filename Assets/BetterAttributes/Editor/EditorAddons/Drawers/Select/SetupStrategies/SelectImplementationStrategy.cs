@@ -24,7 +24,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             return selectionObjects;
         }
         
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return false;
         }

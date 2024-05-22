@@ -40,27 +40,28 @@ namespace Better.Attributes.EditorAddons.Drawers.Preview
                 return;
             }
 
-            if (!container.TryGetByTag(property, out var propertyElement))
+            if (!container.TryGetPropertyField(out var propertyElement))
             {
                 return;
             }
 
-            if (!propertyElement.Elements.TryFind(out PropertyField propertyField))
-            {
-                return;
-            }
-
-            propertyField.RegisterCallback<SerializedPropertyChangeEvent, SerializedProperty>(OnPropertyChanged, property);
+            propertyElement.RegisterCallback<SerializedPropertyChangeEvent, (SerializedProperty, ElementsContainer)>(OnPropertyChanged, (property, container));
             var cache = ValidateCachedProperties(property, PreviewUtility.Instance);
 
             var previewSize = ((PreviewAttribute)_attribute).PreviewSize;
 
             Collection.ValidateObject(property, container);
 
-            var image = VisualElementUtility.AddIcon(propertyField, IconType.View);
+            var image = container.AddIcon(IconType.View);
             image.RegisterCallback<PointerDownEvent, (SerializedProperty, float)>(OnPointerDown, (property, previewSize));
             image.RegisterCallback<PointerUpEvent, SerializedProperty>(OnPointerUp, property);
             image.RegisterCallback<PointerLeaveEvent, SerializedProperty>(OnPointerLeave, property);
+            image.RegisterCallback<PointerMoveEvent, SerializedProperty>(OnPointerMove, property);
+        }
+
+        private void OnPointerMove(PointerMoveEvent moveEvent, SerializedProperty property)
+        {
+            Collection.UpdatePreviewWindow(property, moveEvent.position);
         }
 
         private void OnPointerLeave(PointerLeaveEvent leaveEvent, SerializedProperty property)
@@ -78,9 +79,12 @@ namespace Better.Attributes.EditorAddons.Drawers.Preview
             Collection.OpenPreviewWindow(downEvent.position, data.property, data.previewSize);
         }
 
-        private void OnPropertyChanged(SerializedPropertyChangeEvent changeEvent, SerializedProperty property)
+        private void OnPropertyChanged(SerializedPropertyChangeEvent changeEvent, (SerializedProperty property, ElementsContainer container) data)
         {
-            Collection.ClosePreviewWindow(property);
+            if(Collection.ValidateObject(data.property, data.container))
+            {
+                Collection.UpdatePropertyPreviewWindow(data.property);
+            }
         }
 
         protected override HandlerCollection<PreviewHandler> GenerateCollection()

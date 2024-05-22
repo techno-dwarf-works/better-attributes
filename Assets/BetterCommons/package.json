@@ -1,0 +1,30 @@
+{
+  "name": "com.tdw.better.commons",
+  "displayName": "Better Commons",
+  "version": "0.0.4",
+  "unity": "2021.3",
+  "description": " ",
+  "dependencies": {
+    "com.tdw.better.internal.core": "0.0.2"
+  },
+  "author": {
+    "name": "Better Plugins",
+    "url": "https://github.com/techno-dwarf-works"
+  },
+  "changelogUrl": "https://github.com/techno-dwarf-works/better-commons",
+  "documentationUrl": "https://github.com/techno-dwarf-works/better-commons/tree/main#readme",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/techno-dwarf-works/better-commons/blob/main/LICENSE",
+  "keywords": [
+    "commons",
+    "components",
+    "editor",
+    "utilities",
+    "tools",
+    "extensions",
+    "collections",
+    "data structures",
+    "extensions",
+    "asynchronous"
+  ]
+}

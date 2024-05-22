@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies;
-using Better.Attributes.EditorAddons.Drawers.Select.Wrappers;
 using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.EditorAddons.Drawers.WrapperCollections;
 using Better.Attributes.EditorAddons.Extensions;
 using Better.Attributes.Runtime.Select;
+using Better.Commons.EditorAddons.Drawers;
+using Better.Commons.EditorAddons.Drawers.Attributes;
 using Better.Commons.EditorAddons.Drawers.Base;
 using Better.Commons.EditorAddons.Drawers.Caching;
 using Better.Commons.EditorAddons.DropDown;
@@ -15,12 +16,17 @@ using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Helpers;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Drawers.Attributes;
+using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
+#pragma warning disable CS0618
 namespace Better.Attributes.EditorAddons.Drawers.Select
 {
-    public abstract class SelectDrawerBase<TAttribute> : MultiFieldDrawer<BaseSelectWrapper> where TAttribute : SelectAttributeBase
+    [MultiCustomPropertyDrawer(typeof(SelectAttribute))]
+    [MultiCustomPropertyDrawer(typeof(DropdownAttribute))]
+    public class SelectDrawer : MultiFieldDrawer<BaseSelectWrapper>
     {
         private bool _needUpdate;
         private DisplayName _displayName;
@@ -32,88 +38,67 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
 
         protected SelectHandlers Collection => _handlers as SelectHandlers;
 
-        protected SelectDrawerBase(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)
+        protected SelectDrawer(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)
         {
         }
 
         public override void Initialize(FieldDrawer drawer)
         {
             base.Initialize(drawer);
-            var attribute = (TAttribute)_attribute;
+            var attribute = (SelectAttributeBase)_attribute;
             _displayName = attribute.DisplayName;
             _displayGrouping = attribute.DisplayGrouping;
         }
 
-        protected override bool PreDraw(ref Rect position, SerializedProperty property, GUIContent label)
+        protected override void PopulateContainer(ElementsContainer container)
         {
-            try
+            var property = container.Property;
+            var attribute = (SelectAttributeBase)_attribute;
+            if (_setupStrategy == null || !_setupStrategy.CheckSupported())
             {
-                var attribute = (TAttribute)_attribute;
-                InitializeSetupStrategy(property, attribute);
-                if (_setupStrategy == null || !_setupStrategy.CheckSupported())
-                {
-                    EditorGUI.BeginChangeCheck();
-                    DrawField(position, property, label);
-                    var offset = 0f;
-                    if (_setupStrategy != null)
-                    {
-                        if (!_setupStrategy.SkipFieldDraw())
-                        {
-                            var includeChildren = property.isExpanded;
-                            offset = EditorGUI.GetPropertyHeight(property, includeChildren) + VisualElementUtility.SpaceHeight;
-                        }
-                    }
-
-                    VisualElementUtility.NotSupportedBox(property, GetFieldOrElementType(), _attribute.GetType());
-                    return false;
-                }
-
-                _selectionObjects ??= _setupStrategy.Setup();
-
-                PreDrawExtended(position, property, label);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
+                container.AddNotSupportedBox(GetFieldOrElementType(), _attribute.GetType());
+                return;
             }
 
-            return true;
-        }
+            if (_setupStrategy.IsSkipingFieldDraw() && container.TryGetPropertyField(out var propertyField))
+            {
+                propertyField.style.SetVisible(false);
+            }
 
-        private void PreDrawExtended(Rect position, SerializedProperty property, GUIContent label)
-        {
+            _selectionObjects ??= _setupStrategy.Setup();
+            InitializeSetupStrategy(container.Property, attribute);
+
             var cache = ValidateCachedProperties(property, SelectUtility.Instance);
             if (!cache.IsValid)
             {
                 cache.Value.Wrapper.Setup(property, _fieldInfo, _attribute, _setupStrategy);
             }
 
-            var popupPosition = GetPopupPosition(position, label);
+            var button = CreateButton(property, OnButtonClick);
 
-            var referenceValue = GetCurrentValue(property);
-            if (DrawButton(popupPosition, referenceValue))
+            if (container.TryGetByTag(container.Property, out var fieldElement))
             {
-                _selectionObjects = _setupStrategy.Setup();
-                ShowDropDown(property.Copy(), popupPosition, referenceValue);
-            }
-
-            if (_needUpdate)
-            {
-                Collection.Update(_selectedItem);
-                _needUpdate = false;
-                _selectedItem = null;
+                fieldElement.Elements.Add(button);
             }
         }
 
-        private Rect GetPopupPosition(Rect currentPosition, GUIContent label)
+        private Button CreateButton(SerializedProperty property, EventCallback<ClickEvent, (SerializedProperty, Button)> onButtonClick)
         {
-            var popupPosition = new Rect(currentPosition);
-            var width = label.GetMaxWidth();
-            
-            popupPosition.width -= width;
-            popupPosition.x += width;
-            popupPosition.height = EditorGUIUtility.singleLineHeight;
-            return popupPosition;
+            var content = IconType.GrayDropdown.GetIconGUIContent();
+
+            var currentValue = GetCurrentValue(property);
+            content.text = _setupStrategy.GetButtonName(currentValue);
+            var button = new Button();
+            button.RegisterCallback(onButtonClick, (property, button));
+            return button;
+        }
+
+        private void OnButtonClick(ClickEvent clickEvent, (SerializedProperty property, Button button) data)
+        {
+            _selectionObjects = _setupStrategy.Setup();
+            var property = data.property;
+            var value = GetCurrentValue(property);
+            ShowDropDown(property.Copy(), data.button.worldBound, value);
         }
 
         protected override void Deconstruct()
@@ -122,14 +107,6 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             _handlers?.Deconstruct();
             _selectionObjects = null;
             _setupStrategy = null;
-        }
-
-        private bool DrawButton(Rect buttonPosition, object currentValue)
-        {
-            var content = IconType.GrayDropdown.GetIconGUIContent();
-
-            content.text = _setupStrategy.GetButtonName(currentValue);
-            return GUI.Button(buttonPosition, content, Styles.Button);
         }
 
         private void ShowDropDown(SerializedProperty serializedProperty, Rect popupPosition, object currentValue)
@@ -178,31 +155,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             return items;
         }
 
-        protected override HeightCacheValue GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            var cache = ValidateCachedProperties(property, SelectUtility.Instance);
-            var attribute = (TAttribute)_attribute;
-            InitializeSetupStrategy(property, attribute);
-            if (!cache.IsValid)
-            {
-                if (cache.Value == null) return HeightCacheValue.GetAdditive(0f);
-                var selectWrapper = cache.Value.Wrapper;
-                selectWrapper.Setup(property, _fieldInfo, _attribute, _setupStrategy);
-                var value = selectWrapper.GetHeight();
-                return value;
-            }
-
-            var valueWrapper = cache.Value.Wrapper;
-            if (!valueWrapper.Verify())
-            {
-                valueWrapper.Setup(property, _fieldInfo, _attribute, _setupStrategy);
-            }
-
-            var height = valueWrapper.GetHeight();
-            return height;
-        }
-
-        private void InitializeSetupStrategy(SerializedProperty property, TAttribute attribute)
+        private void InitializeSetupStrategy(SerializedProperty property, SelectAttributeBase attribute)
         {
             _setupStrategy ??= SelectUtility.Instance.GetSetupStrategy(_fieldInfo, property.GetLastNonCollectionContainer(), attribute);
         }
@@ -221,8 +174,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
 
             if (obj == null)
             {
-                _selectedItem = null;
-                SetNeedUpdate();
+                Update(null);
                 return;
             }
 
@@ -235,8 +187,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
                 }
             }
 
-            _selectedItem = item;
-            SetNeedUpdate();
+            Update(item);
         }
 
         protected override HandlerCollection<BaseSelectWrapper> GenerateCollection()
@@ -244,18 +195,10 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             return new SelectHandlers();
         }
 
-        protected void SetNeedUpdate()
+        protected void Update(SelectedItem<object> selectedItem)
         {
-            _needUpdate = true;
-        }
-
-        protected override Rect PreparePropertyRect(Rect original)
-        {
-            return original;
-        }
-
-        protected override void PostDraw(Rect position, SerializedProperty property, GUIContent label)
-        {
+            Collection.Update(selectedItem);
+            _selectedItem = selectedItem;
         }
     }
 }

@@ -57,12 +57,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
         {
             if (sceneView.drawGizmos)
             {
-                if (_handlers == null)
-                {
-                    _handlers = GenerateCollection();
-                }
-
-                GizmoUtility.Instance.ValidateCachedProperties(_handlers);
+                GizmoUtility.Instance.ValidateCachedProperties(Collection);
                 Collection?.Apply(sceneView);
             }
         }
@@ -89,13 +84,8 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             {
                 Collection.SetProperty(property, fieldType);
             }
-
-            if (!container.TryGetByTag(property, out var propertyElement))
-            {
-                return;
-            }
-
-            if (!propertyElement.Elements.TryFind(out PropertyField propertyField))
+            
+            if (!container.TryGetPropertyField(out var propertyElement))
             {
                 return;
             }
@@ -103,7 +93,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             var button = new Button();
             UpdateButtonText(button, property);
             button.RegisterCallback<ClickEvent, (SerializedProperty, Button)>(OnClicked, (property, button));
-            propertyField.Add(button);
+            propertyElement.Add(button);
         }
 
         private void UpdateButtonText(Button button, SerializedProperty property)
