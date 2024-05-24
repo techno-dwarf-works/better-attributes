@@ -1,26 +1,17 @@
-﻿using System.Reflection;
-using Better.Attributes.EditorAddons.Drawers.Manipulation.Wrappers;
-using Better.Attributes.EditorAddons.Drawers.Utility;
+﻿using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.Runtime.Manipulation;
-using Better.Commons.EditorAddons.Drawers.Attributes;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Base;
-using Better.Commons.EditorAddons.Drawers.Caching;
-using Better.Commons.Runtime.Drawers.Attributes;
 using UnityEditor;
-using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Manipulation
 {
-    [MultiCustomPropertyDrawer(typeof(ManipulateAttribute))]
-    public class ManipulateDrawer : MultiFieldDrawer<ManipulateWrapper>
+    [CustomPropertyDrawer(typeof(ManipulateAttribute), true)]
+    public class ManipulateDrawer : BasePropertyDrawer<ManipulateWrapper>
     {
-        private ManipulateDrawer(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)
-        {
-        }
-
         private ManipulateWrapper GetWrapper(SerializedProperty property)
         {
-            var cache = ValidateCachedProperties(property, ManipulateUtility.Instance);
+            var cache = ValidateCachedProperties(property, __ManipulateUtility.Instance);
             if (!cache.IsValid)
             {
                 cache.Value.Wrapper.SetProperty(property, (ManipulateAttribute)_attribute);
@@ -29,30 +20,18 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
             return cache.Value.Wrapper;
         }
 
-        protected override bool PreDraw(ref Rect position, SerializedProperty property, GUIContent label)
+        protected override void PopulateContainer(ElementsContainer container)
         {
-            _handlers ??= GenerateCollection();
-            var wrapper = GetWrapper(property); 
-            wrapper.PreDraw(ref position);
-            
-            return true;
+            var wrapper = GetWrapper(container.Property);
+            wrapper.PopulateContainer(container);
+
+            container.OnSerializedObjectChanged += OnSerializedObjectChanged;
         }
 
-        protected override Rect PreparePropertyRect(Rect original)
+        private void OnSerializedObjectChanged(ElementsContainer container)
         {
-            return original;
-        }
-
-        protected override HeightCacheValue GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            var wrapper = GetWrapper(property);
-            return wrapper.GetHeight();
-        }
-
-        protected override void PostDraw(Rect position, SerializedProperty property, GUIContent label)
-        {
-            var wrapper = GetWrapper(property);
-            wrapper.PostDraw();
+            var wrapper = GetWrapper(container.Property);
+            wrapper.UpdateState(container);
         }
 
         protected override HandlerCollection<ManipulateWrapper> GenerateCollection()

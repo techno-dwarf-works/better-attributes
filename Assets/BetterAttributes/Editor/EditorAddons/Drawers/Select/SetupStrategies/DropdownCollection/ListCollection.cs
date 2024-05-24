@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Better.Attributes.EditorAddons.Drawers.Utility;
+using Better.Attributes.Runtime;
 using Better.Commons.Runtime.Extensions;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
@@ -41,7 +42,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
         {
             if (obj == null)
             {
-                return SelectUtility.Null;
+                return LabelDefines.Null;
             }
 
             if (_list.Count <= 0) return obj.ToString();

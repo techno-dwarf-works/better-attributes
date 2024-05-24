@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.EditorAddons.Extensions;
+using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
@@ -15,8 +16,8 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
     {
         private Type _enumType;
         private bool _isFlag;
-        private PredefinedValues _none = new PredefinedValues(Constants.NoneEnumName, EnumUtility.DefaultIntFlag);
-        private PredefinedValues _everythingValue = new PredefinedValues(Constants.EverythingEnumName, -1);
+        private PredefinedValues _none = new PredefinedValues(LabelDefines.NoneEnumName, EnumUtility.DefaultIntFlag);
+        private PredefinedValues _everythingValue = new PredefinedValues(LabelDefines.EverythingEnumName, -1);
         private List<object> _enumValues;
 
         public SelectEnumStrategy(FieldInfo fieldInfo, object propertyContainer, SelectAttributeBase selectAttributeBase) : base(fieldInfo, propertyContainer,
@@ -36,7 +37,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             public int Value { get; }
         }
 
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return true;
         }
@@ -95,7 +96,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
 
         public override GUIContent[] ResolveGroupedName(object value, DisplayGrouping grouping)
         {
-            return new GUIContent[] { new GUIContent(SelectUtility.NotSupported) };
+            return new GUIContent[] { new GUIContent(LabelDefines.NotSupported) };
         }
 
         public override List<object> Setup()
@@ -106,14 +107,14 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             var ints = EnumUtility.GetAllValues(_enumType).Select(x => x.ToFlagInt()).ToList();
             if (_isFlag)
             {
-                _none = new PredefinedValues(Constants.NoneEnumName, EnumUtility.DefaultIntFlag);
+                _none = new PredefinedValues(LabelDefines.NoneEnumName, EnumUtility.DefaultIntFlag);
                 if (!ints.Contains(_none.Value))
                 {
                     ints.Insert(0, _none.Value);
                 }
 
                 var everything = EnumUtility.EverythingFlag(_enumType).ToFlagInt();
-                _everythingValue = new PredefinedValues(Constants.EverythingEnumName, everything);
+                _everythingValue = new PredefinedValues(LabelDefines.EverythingEnumName, everything);
                 if (!ints.Contains(_everythingValue.Value))
                 {
                     ints.Insert(ints.Count, _everythingValue.Value);
@@ -151,7 +152,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
                 }
             }
 
-            return new GUIContent(SelectUtility.NotSupported);
+            return new GUIContent(LabelDefines.NotSupported);
         }
     }
 }

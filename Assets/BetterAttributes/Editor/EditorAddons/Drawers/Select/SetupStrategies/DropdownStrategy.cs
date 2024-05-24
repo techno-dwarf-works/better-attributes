@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.EditorAddons.Extensions;
+using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.Runtime.Comparers;
 using Better.Commons.Runtime.Extensions;
@@ -31,7 +32,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             _dropdownAttribute = (DropdownAttribute)selectAttributeBase;
         }
         
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return true;
         }
@@ -150,7 +151,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
         {
             if (value == null)
             {
-                return new GUIContent(SelectUtility.Null);
+                return new GUIContent(LabelDefines.Null);
             }
 
             var name = _data.FindName(value);
@@ -181,7 +182,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
         {
             if (value == null)
             {
-                return new GUIContent[] { new GUIContent(SelectUtility.Null) };
+                return new GUIContent[] { new GUIContent(LabelDefines.Null) };
             }
 
             var type = _data.FindName(value);

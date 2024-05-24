@@ -1,14 +1,9 @@
-﻿using System.Reflection;
-using Better.Attributes.EditorAddons.Drawers.WrapperCollections;
+﻿using Better.Attributes.EditorAddons.Drawers.WrapperCollections;
 using Better.Attributes.Runtime.Gizmo;
 using Better.Commons.EditorAddons.Drawers;
-using Better.Commons.EditorAddons.Drawers.Attributes;
 using Better.Commons.EditorAddons.Drawers.Base;
 using Better.Commons.EditorAddons.Utility;
-using Better.Commons.Runtime.Drawers.Attributes;
-using Better.Commons.Runtime.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 #if UNITY_2022_1_OR_NEWER
@@ -19,20 +14,15 @@ using Better.Attributes.EditorAddons.Drawers.Utility;
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
-    [MultiCustomPropertyDrawer(typeof(GizmoAttribute))]
-    [MultiCustomPropertyDrawer(typeof(GizmoLocalAttribute))]
-    public class GizmoDrawer : MultiFieldDrawer<GizmoWrapper>
+    [CustomPropertyDrawer(typeof(GizmoAttribute))]
+    [CustomPropertyDrawer(typeof(GizmoLocalAttribute))]
+    public class GizmoDrawer : BasePropertyDrawer<GizmoWrapper>
     {
         public const string Hide = "Hide";
         public const string Show = "Show";
 
-        public GizmoDrawer(FieldInfo fieldInfo, MultiPropertyAttribute attribute) : base(fieldInfo, attribute)
+        public GizmoDrawer()
         {
-        }
-
-        public override void Initialize(FieldDrawer drawer)
-        {
-            base.Initialize(drawer);
             EditorApplication.delayCall += DelayCall;
         }
 
@@ -57,20 +47,15 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
         {
             if (sceneView.drawGizmos)
             {
-                if (_handlers == null)
-                {
-                    _handlers = GenerateCollection();
-                }
-
-                GizmoUtility.Instance.ValidateCachedProperties(_handlers);
+                __GizmoUtility.Instance.ValidateCachedProperties(Collection);
                 Collection?.Apply(sceneView);
             }
         }
 
         protected override void Deconstruct()
         {
+            base.Deconstruct();
             SceneView.duringSceneGui -= OnSceneGUIDelegate;
-            _handlers?.Deconstruct();
         }
 
         protected override void PopulateContainer(ElementsContainer container)
@@ -78,24 +63,19 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             var fieldType = GetFieldOrElementType();
             var property = container.Property;
 
-            if (!GizmoUtility.Instance.IsSupported(fieldType))
+            if (!__GizmoUtility.Instance.IsSupported(fieldType))
             {
                 container.AddNotSupportedBox(fieldType, _attribute.GetType());
                 return;
             }
 
-            var cache = ValidateCachedProperties(property, GizmoUtility.Instance);
+            var cache = ValidateCachedProperties(property, __GizmoUtility.Instance);
             if (!cache.IsValid)
             {
                 Collection.SetProperty(property, fieldType);
             }
-
-            if (!container.TryGetByTag(property, out var propertyElement))
-            {
-                return;
-            }
-
-            if (!propertyElement.Elements.TryFind(out PropertyField propertyField))
+            
+            if (!container.TryGetPropertyField(out var propertyElement))
             {
                 return;
             }
@@ -103,7 +83,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             var button = new Button();
             UpdateButtonText(button, property);
             button.RegisterCallback<ClickEvent, (SerializedProperty, Button)>(OnClicked, (property, button));
-            propertyField.Add(button);
+            propertyElement.Add(button);
         }
 
         private void UpdateButtonText(Button button, SerializedProperty property)

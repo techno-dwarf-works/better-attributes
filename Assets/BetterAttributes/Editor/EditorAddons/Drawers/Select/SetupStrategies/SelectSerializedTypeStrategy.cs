@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Better.Attributes.EditorAddons.Drawers.Utility;
 using Better.Attributes.EditorAddons.Extensions;
+using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
@@ -39,7 +40,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
             return constructor != null;
         }
 
-        public override bool SkipFieldDraw()
+        public override bool IsSkipingFieldDraw()
         {
             return true;
         }
@@ -73,7 +74,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
         {
             if (value == null)
             {
-                return new GUIContent[] { new GUIContent(SelectUtility.Null) };
+                return new GUIContent[] { new GUIContent(LabelDefines.Null) };
             }
 
             if (value is Type type)
@@ -101,14 +102,14 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
                 }
             }
 
-            return new GUIContent[] { new GUIContent(SelectUtility.NotSupported) };
+            return new GUIContent[] { new GUIContent(LabelDefines.NotSupported) };
         }
 
         public override GUIContent ResolveName(object value, DisplayName displayName)
         {
             if (value == null)
             {
-                return new GUIContent(SelectUtility.Null);
+                return new GUIContent(LabelDefines.Null);
             }
 
             if (value is Type type)
@@ -125,7 +126,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
                 }
             }
 
-            return new GUIContent(SelectUtility.NotSupported);
+            return new GUIContent(LabelDefines.NotSupported);
         }
 
         public override string GetButtonName(object currentValue)
@@ -135,7 +136,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select.SetupStrategies
                 return type.Name;
             }
 
-            return SelectUtility.Null;
+            return LabelDefines.Null;
         }
 
         public override List<object> Setup()

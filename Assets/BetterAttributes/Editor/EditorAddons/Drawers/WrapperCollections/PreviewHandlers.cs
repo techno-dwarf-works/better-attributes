@@ -12,7 +12,7 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
         {
             if (TryGetValue(property, out var wrapper))
             {
-                wrapper.Wrapper.OpenPreviewWindow(position, property, previewSize);
+                wrapper.Wrapper.OpenPreviewWindow(property, position, previewSize);
             }
         }
         
@@ -21,6 +21,14 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             if (TryGetValue(property, out var wrapper))
             {
                 wrapper.Wrapper.ClosePreviewWindow();
+            }
+        }
+        
+        public void UpdatePropertyPreviewWindow(SerializedProperty property)
+        {
+            if (TryGetValue(property, out var wrapper))
+            {
+                wrapper.Wrapper.UpdatePropertyPreviewWindow(property);
             }
         }
 
@@ -32,11 +40,11 @@ namespace Better.Attributes.EditorAddons.Drawers.WrapperCollections
             }
         }
 
-        public bool ValidateObject(SerializedProperty property, ElementsContainer container)
+        public bool __ValidateObject(SerializedProperty property, ElementsContainer container)
         {
             if (TryGetValue(property, out var wrapper))
             {
-               return wrapper.Wrapper.ValidateObject(property, container);
+               return wrapper.Wrapper.__ValidateObject(property, container);
             }
 
             return false;

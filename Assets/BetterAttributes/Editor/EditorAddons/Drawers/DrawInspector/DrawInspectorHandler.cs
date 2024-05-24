@@ -5,6 +5,7 @@ using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
@@ -60,15 +61,16 @@ namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
                 return;
             }
 
-            if (_property.objectReferenceValue == null)
+            var referenceValue = _property.objectReferenceValue;
+            if (referenceValue == null)
             {
                 return;
             }
 
-            var editor = Editor.CreateEditor(_property.objectReferenceValue);
-            var editorElement = editor.CreateInspectorGUI();
+            var inspectorElement = new InspectorElement(_property.objectReferenceValue);
             UpdateVisible(_rootElement);
-            _rootElement.Add(editorElement);
+            _rootElement.Add(inspectorElement);
+            _rootElement.style.PaddingLeft(StyleDefinition.IndentLevelPadding);
         }
 
         public override void Deconstruct()
