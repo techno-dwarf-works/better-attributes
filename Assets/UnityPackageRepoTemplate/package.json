@@ -1,0 +1,30 @@
+{
+  "name": "com.tdw.better.{package_name}",
+  "displayName": "{display_name}",
+  "version": "0.0.1",
+  "unity": "2021.3",
+  "description": " ",
+  "dependencies": {
+    "com.tdw.better.internal.core": "0.0.2"
+  },
+  "author": {
+    "name": "Better Plugins",
+    "url": "https://github.com/techno-dwarf-works"
+  },
+  "changelogUrl": "https://github.com/techno-dwarf-works/{project_name}",
+  "documentationUrl": "https://github.com/techno-dwarf-works/{project_name}/tree/main#readme",
+  "license": "MIT",
+  "licensesUrl":"https://github.com/techno-dwarf-works/{project_name}/blob/main/LICENSE",
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword2"
+  ],
+  "samples": [
+    {
+      "displayName": "Default samples",
+      "description": "Contains test samples",
+      "path": "Samples~/TestSamples"
+    }
+  ]
+}

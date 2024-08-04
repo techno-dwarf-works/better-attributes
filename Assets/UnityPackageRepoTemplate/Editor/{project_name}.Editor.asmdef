@@ -1,0 +1,20 @@
+{
+    "name": "{project_name}.Editor",
+    "rootNamespace": "Better.{short_project_name}.EditorAddons",
+    "references": [
+        "GUID:443314a5a4e67c14a88ae223776b6554",
+        "GUID:01df13aca8d01e24a911bcc3e8277031",
+        "GUID:6adbd2a12d24f5d429f7ea1b1086e835"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,108 @@
+name: Publish UPM Package
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+    
+  workflow_dispatch:
+    inputs:
+      run_manually:
+        description: 'Run Manually'     
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+ convert_string:
+   name: Prepare String
+   runs-on: ubuntu-latest
+   outputs:
+     converted_string: ${{ steps.convertString.outputs.convertedString }}
+    
+   steps:
+     - name: Set the original string
+       id: setOriginalString
+       run: echo "::set-output name=originalString::${{ github.event.repository.name }}"
+
+     - name: Convert string
+       id: convertString
+       run: |
+         # Define an array of strings to always convert to uppercase
+         UPPER_CASE_ARRAY=("ui") # Add other strings as needed
+        
+         ORIGINAL_STRING="${{ steps.setOriginalString.outputs.originalString }}"
+         IFS='-' read -ra PARTS <<< "$ORIGINAL_STRING"
+         RESULT=""
+         for PART in "${PARTS[@]}"; do
+           # Check if PART should be converted to uppercase
+           if [[ " ${UPPER_CASE_ARRAY[*]} " =~ " ${PART} " ]]; then
+             PART=${PART^^} # Convert to uppercase if in UPPER_CASE_ARRAY
+           else
+             PART=${PART^} # Capitalize the first letter otherwise
+           fi
+           RESULT="${RESULT}${PART}"
+         done
+         echo "::set-output name=convertedString::${RESULT}"
+
+ prepare:
+    needs: convert_string
+    name: Prepare
+    if: ${{ inputs.run_manually }} || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest    
+    steps:   
+    - uses: actions/checkout@master
+    - name: Copy the README
+      run: |
+          cp "README.md" "Assets/${{ needs.convert_string.outputs.converted_string }}/README.md"
+    - name: Copy the LICENSE
+      run: |
+          cp "LICENSE" "Assets/${{ needs.convert_string.outputs.converted_string }}/LICENSE"
+    - name: Verify Changed files
+      uses: tj-actions/verify-changed-files@v17
+      id: verify-changed-files
+      with:
+        files: |
+             **/README.md
+             **/LICENSE
+    - name: Commit files
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      run: |
+        git config --local user.email ${{secrets.ADMIN_MAIL}}
+        git config --local user.name ${{secrets.ADMIN_NAME}}
+        git add .
+        git commit -m "Update README.md and LICENSE" -a
+    - name: Push changes
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+ deploy:
+    needs: 
+      - convert_string
+      - prepare
+    name: Deploy
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    steps:
+    # Any prerequisite steps
+    - name: Checkout latest
+      uses: actions/checkout@v3
+      with: 
+        fetch-depth: 0
+        ref: main
+        lfs: true
+
+    # Deploy to local repo
+    - name: Deploy
+      uses: s0/git-publish-subdir-action@develop
+      env:
+        REPO: self
+        BRANCH: upm
+        FOLDER: Assets/${{ needs.convert_string.outputs.converted_string }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SKIP_EMPTY_COMMITS: true
+        MESSAGE: "{msg}"
