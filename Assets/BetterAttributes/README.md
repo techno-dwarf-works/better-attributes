@@ -1,6 +1,6 @@
 # Better Attributes
 
-[![openupm](https://img.shields.io/npm/v/com.uurha.betterattributes?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.uurha.betterattributes/)
+[![openupm](https://img.shields.io/npm/v/com.tdw.better.attributes?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.tdw.better.attributes/)
 
 ![image](https://user-images.githubusercontent.com/22265817/181865901-35fea6f6-0b6e-4246-9df5-99e13cb5ed0f.png)
 
