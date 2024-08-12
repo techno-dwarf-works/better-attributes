@@ -1,0 +1,21 @@
+{
+    "name": "BetterAttributes.Editor",
+    "rootNamespace": "Better.Attributes.EditorAddons",
+    "references": [
+        "GUID:35101f455c979e94c9a0a4793484b7fd",
+        "GUID:01df13aca8d01e24a911bcc3e8277031",
+        "GUID:8bd4b41f8da90144d9006c4d926c9679",
+        "GUID:55fbe2a01ca11514f94a66e7102c8895"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
