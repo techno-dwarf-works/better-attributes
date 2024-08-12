@@ -1,0 +1,17 @@
+{
+    "name": "BetterAttributes.Runtime",
+    "rootNamespace": "Better.Attributes.Runtime",
+    "references": [
+        "GUID:01df13aca8d01e24a911bcc3e8277031",
+        "GUID:8bd4b41f8da90144d9006c4d926c9679"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
