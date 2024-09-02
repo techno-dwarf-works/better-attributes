@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Drawers
 {
-    [CustomPropertyDrawer(typeof(ValidationAttribute))]
+    [CustomPropertyDrawer(typeof(ValidationAttribute), true)]
     public class ValidationDrawer : BasePropertyDrawer<PropertyValidationHandler, ValidationAttribute>
     {
         protected override void PopulateContainer(ElementsContainer container)

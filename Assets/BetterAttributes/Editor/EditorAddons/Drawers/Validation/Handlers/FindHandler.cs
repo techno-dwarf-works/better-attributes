@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
 {
     [Serializable]
-    public class FindComponentHandler : PropertyValidationHandler
+    public class FindHandler : PropertyValidationHandler
     {
         private FindAttribute _findAttribute;
 

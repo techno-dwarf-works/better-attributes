@@ -18,7 +18,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Validation
                 { typeof(NotNullAttribute), typeof(NotNullHandler) },
                 { typeof(PrefabReferenceAttribute), typeof(PrefabHandler) },
                 { typeof(SceneReferenceAttribute), typeof(SceneReferenceHandler) },
-                { typeof(FindAttribute), typeof(FindComponentHandler) },
+                { typeof(FindAttribute), typeof(FindHandler) },
                 { typeof(DataValidationAttribute), typeof(DataValidationHandler) },
                 { typeof(MaxAttribute), typeof(MaxWrapper) },
                 { typeof(ClampAttribute), typeof(ClampWrapper) },
