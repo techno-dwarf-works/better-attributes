@@ -38,7 +38,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         protected override IEnumerable<Type> GetInheritedTypes(Type fieldType)
         {
             var inheritedTypes = fieldType.GetAllInheritedTypesWithoutUnityObject()
-                .Where(type => !type.IsGenericType && !type.IsGenericTypeDefinition);
+                .Where(type => !type.IsGenericType && !type.IsGenericTypeDefinition && type.IsDefined(typeof(SerializableAttribute), false));
             return inheritedTypes;
         }
 
