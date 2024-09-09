@@ -46,6 +46,12 @@ namespace Better.Attributes.EditorAddons.Drawers.HandlerMaps
                         { typeof(Type), typeof(RenameFieldHandler) }
                     }
                 },
+                {
+                    typeof(DetailedAttribute), new Dictionary<Type, Type>(AnyTypeComparer.Instance)
+                    {
+                        { typeof(Type), typeof(DetailedHandler) }
+                    }
+                },
             };
         }
 

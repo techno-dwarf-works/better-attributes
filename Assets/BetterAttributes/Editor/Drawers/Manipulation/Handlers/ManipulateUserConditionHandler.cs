@@ -49,7 +49,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
         {
             base.SetProperty(property, attribute);
             _userAttribute = (ManipulateUserConditionAttribute)attribute;
-            _container = _property.GetLastNonCollectionContainer();
+            _container = _property.GetLastNonCollectionParent();
         }
     }
 }

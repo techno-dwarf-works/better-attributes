@@ -32,7 +32,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             Container = container;
             FieldInfo = fieldInfo;
             Attribute = attribute;
-            PropertyContainer = Container.SerializedProperty.GetLastNonCollectionContainer();
+            PropertyContainer = Container.SerializedProperty.GetLastNonCollectionParent();
             CurrentValue = GetCurrentValue();
             OnSetup();
         }

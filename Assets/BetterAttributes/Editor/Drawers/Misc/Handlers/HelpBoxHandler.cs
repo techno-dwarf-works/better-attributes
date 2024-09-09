@@ -14,7 +14,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc
 
             var textOrSelector = helpBoxAttribute.Text;
 
-            var instance = _container.SerializedProperty.GetLastNonCollectionContainer();
+            var instance = _container.SerializedProperty.GetLastNonCollectionParent();
             
             if (SelectorUtility.TryGetValue(textOrSelector, instance, out var value))
             {

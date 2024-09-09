@@ -16,7 +16,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
             var fieldCache = Property.GetFieldInfoAndStaticTypeFromProperty();
             var att = (DataValidationAttribute)Attribute;
 
-            var propertyContainer = Property.GetPropertyContainer();
+            var propertyContainer = Property.GetPropertyParent();
             var method = propertyContainer.GetType().GetMethod(att.MethodName, Defines.MethodFlags);
             var methodName = $"\"{att.MethodName.FormatBoldItalic()}\"";
             if (method == null)
