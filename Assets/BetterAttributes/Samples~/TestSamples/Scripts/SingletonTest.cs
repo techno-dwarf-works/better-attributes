@@ -4,6 +4,7 @@ namespace Samples
 {
     public class SingletonTest
     {
+        public const string Selector = "r:SingletonTest.Instance.MethodString()";
         private static SingletonTest _instance;
 
         private List<int> GetIDs()
@@ -36,6 +37,11 @@ namespace Samples
 
                 return _instance;
             }
+        }
+
+        public IEnumerable<string> MethodString()
+        {
+            return new[] { "test1", "test2", "test3" };
         }
     }
 }

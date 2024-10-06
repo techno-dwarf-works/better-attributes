@@ -15,66 +15,6 @@ using UnityEngine;
 
 namespace Samples
 {
-    [Flags]
-    public enum MyFlagEnum
-    {
-        First = 1,
-        Second = 2,
-        Third = 4
-    }
-
-    public enum TestEnum
-    {
-        Option,
-        Option1,
-        Option2,
-        Option3,
-        Option4,
-        Option5,
-        Option6,
-        Option7,
-        Option8,
-        Option9,
-        Option10,
-        Option11,
-        Option12,
-        Option13,
-        Option14,
-        Option15,
-        Option16,
-        Option17,
-        Option18,
-        Option19,
-        Option20,
-        Option21,
-        Option22,
-        Option23,
-        Option24,
-        Option25,
-        Option26,
-        Option27,
-    }
-
-    [Serializable]
-    public class TestInner
-    {
-        [Dropdown("r:SingletonTest.Instance.GetIDs()")] [SerializeField]
-        private int testIntLog;
-    }
-
-    [Serializable]
-    public class TestSerializableType : ITestSerializableType
-    {
-        [SerializeField] private bool t;
-        
-        [Select(typeof(ISomeInterface))] [SerializeField]
-        private List<SerializedType> serializedTypes;
-
-        protected TestSerializableType()
-        {
-        }
-    }
-    
     [Serializable]
     public class TestSerializableType<T> : ITestSerializableType
     {
@@ -83,18 +23,13 @@ namespace Samples
         }
     }
 
-    public interface ITestSerializableType
-    {
-    }
-
-    public class Test : MonoBehaviour
+    public class Test : MonoBehaviour, ISomeInterface
     {
         [HideLabel] [Select(typeof(ISomeInterface))] [SerializeField]
         private SerializedType serializedType;
 
-        [Select] 
-        [NotNull]
-        [SerializeReference] private List<ITestSerializableType> testInheritedList;
+        [Select] [NotNull] [SerializeReference]
+        private List<ITestSerializableType> testInheritedList;
 
         [Select(typeof(ISomeInterface))] [SerializeField]
         private SerializedType serializedType2;
@@ -112,8 +47,7 @@ namespace Samples
         [ShowIf(nameof(keyCode), KeyCode.Backspace)] [Preview] [DrawInspector] [SerializeField]
         private PreviewTest component;
 
-        [NotNull]
-        [Preview] [CustomTooltip("Test tooltip")] [SerializeField]
+        [NotNull] [Preview] [CustomTooltip("Test tooltip")] [SerializeField]
         private Texture2D texture;
 
         [HelpBox("It's help box")] [DrawInspector] [SerializeField]
@@ -132,14 +66,16 @@ namespace Samples
 
         [HideLabel] [SerializeField] private SomeClass someClass;
 
-        [ReadOnly] [SerializeField] private float someFloat;
+        [Clamp01] [ReadOnly] [SerializeField]
+        private float someFloat;
 
         [HideLabel] [Select(DisplayGrouping.GroupedFlat)] [SerializeReference]
         private ISomeInterface someInterface;
 
-        [Select] [SerializeReference] private SomeAbstractClass someAbstractClass;
+        [Detailed] [Select] [SerializeReference]
+        private SomeAbstractClass someAbstractClass;
 
-        [Select(typeof(SomeAbstractClass), DisplayName.Full)] [SerializeReference]
+        [Detailed] [Select(typeof(SomeAbstractClass), DisplayName.Full)] [SerializeReference]
         private List<SomeAbstractClass> someAbstractClasses;
 
         [Dropdown("r:SingletonTest.Instance.GetIDs()")] [SerializeField]
@@ -201,7 +137,7 @@ namespace Samples
 
         ///This button will call method with predefined parameters. 
         ///When invokeParams not specified will call with null.
-        [EditorButton(InvokeParams = new object[] { 10f })]
+        [EditorButton()]
         private void SomeMethod(float floatValue)
         {
             Debug.Log($"{nameof(SomeMethod)}({floatValue})");
@@ -209,7 +145,7 @@ namespace Samples
 
         ///This button will call method with predefined parameters. 
         ///When invokeParams not specified will call with null.
-        [EditorButton(InvokeParams = new object[] { 10f, 10 })]
+        [EditorButton()]
         private void SomeMethod(float floatValue, int intValue)
         {
             Debug.Log($"{nameof(SomeMethod)}({floatValue}, {intValue})");

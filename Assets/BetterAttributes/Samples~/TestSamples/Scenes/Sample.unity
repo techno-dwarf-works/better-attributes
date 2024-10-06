@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 123298862}
   - component: {fileID: 123298863}
+  - component: {fileID: 123298864}
   m_Layer: 0
   m_Name: TestObject
   m_TagString: Untagged
@@ -168,12 +169,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedType:
-    _fullQualifiedName: 
+    _fullQualifiedName: Samples.OtherModels.SomeInterfaceImplementation1, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   testInheritedList:
-  - rid: 5242900496691232769
+  - rid: 3385600230063865857
   serializedType2:
-    _fullQualifiedName: 
-  keyCode: 0
+    _fullQualifiedName: Samples.OtherModels.SomeInterfaceImplementation1, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  keyCode: 9
   myFlagEnumTest: 0
   myEnumTest: 0
   component: {fileID: 0}
@@ -200,9 +203,10 @@ MonoBehaviour:
   someInterface:
     rid: 4433848005717393408
   someAbstractClass:
-    rid: -2
+    rid: 3385599870956994572
   someAbstractClasses:
-  - rid: 5242900346428719104
+  - rid: 3385599870956994566
+  - rid: -2
   testInt2: 0
   _testInner:
     testIntLog: 0
@@ -229,23 +233,94 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 3385599870956994566
+      type: {class: SomeAbstractClassImplementation2, ns: Samples.Models, asm: Assembly-CSharp}
+      data:
+        boolField: 0
+        baseIntField: 0
+        _test: {fileID: 123298863}
+    - rid: 3385599870956994572
+      type: {class: SomeAbstractClassImplementation3, ns: Samples.Models, asm: Assembly-CSharp}
+      data:
+        _noDetailedAttribute:
+          rid: 3385599870956994583
+        _detailedAttribute:
+          rid: 3385599870956994590
+        _detailedAttributeNotNested:
+          _detailedAttributeNotNested:
+            rid: 3385600230063865859
+    - rid: 3385599870956994583
+      type: {class: SomeAbstractClassImplementation2, ns: Samples.Models, asm: Assembly-CSharp}
+      data:
+        boolField: 0
+        baseIntField: 0
+        _test: {fileID: 123298863}
+    - rid: 3385599870956994590
+      type: {class: SomeAbstractClassImplementation2, ns: Samples.Models, asm: Assembly-CSharp}
+      data:
+        boolField: 0
+        baseIntField: 0
+        _test: {fileID: 123298863}
+    - rid: 3385600230063865857
+      type: {class: TestSerializableType, ns: Samples, asm: Assembly-CSharp}
+      data:
+        t: 0
+        serializedTypes: []
+    - rid: 3385600230063865859
+      type: {class: SomeAbstractClassImplementation3, ns: Samples.Models, asm: Assembly-CSharp}
+      data:
+        _noDetailedAttribute:
+          rid: -2
+        _detailedAttribute:
+          rid: -2
+        _detailedAttributeNotNested:
+          _detailedAttributeNotNested:
+            rid: -2
     - rid: 4433848005717393408
       type: {class: SomeInterfaceImplementation14, ns: Samples.OtherModels, asm: Assembly-CSharp}
       data:
         intField: 0
         intField2: 0
-    - rid: 5242900346428719104
-      type: {class: SomeAbstractClassImplementation2, ns: Samples.Models, asm: Assembly-CSharp}
+--- !u!114 &123298864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123298860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d6bae82b484f3f97840c2acb5230df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _testSelect:
+    rid: 3385600323522658304
+  m_PrivateInner:
+    m_TestPrivateInnerClass: PrivateInnerEmpty1
+  m_Test1: TestObject
+  m_Test2: TestObject (Samples.DropdownTest.DropdownTester)
+  m_Test3: MonoBehaviour
+  m_Test4: Empty3
+  m_Test5: 
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 3385600323522658304
+      type: {class: DropdownTestSelect, ns: Samples.DropdownTest, asm: Assembly-CSharp}
       data:
-        boolField: 0
-        baseIntField: 0
-    - rid: 5242900496691232769
-      type: {class: TestSerializableType, ns: Samples, asm: Assembly-CSharp}
+        _testSelect:
+          rid: 3385600323522658305
+        m_TestInner1: test2
+        m_TestInner4: Empty2
+    - rid: 3385600323522658305
+      type: {class: DropdownTestSelect, ns: Samples.DropdownTest, asm: Assembly-CSharp}
       data:
-        t: 0
-        serializedTypes:
-        - _fullQualifiedName: Samples.OtherModels.SomeInterfaceImplementation1, Assembly-CSharp,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _testSelect:
+          rid: -2
+        m_TestInner1: test3
+        m_TestInner4: Empty2
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
