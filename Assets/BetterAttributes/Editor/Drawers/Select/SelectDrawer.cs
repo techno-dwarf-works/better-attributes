@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Better.Attributes.Runtime.Select;
 using Better.Commons.EditorAddons.Comparers;
 using Better.Commons.EditorAddons.Drawers;
@@ -7,11 +6,9 @@ using Better.Commons.EditorAddons.Drawers.BehavioredElements;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.DropDown;
 using Better.Commons.EditorAddons.Extensions;
-using Better.Commons.EditorAddons.Helpers;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -57,7 +54,10 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
 
             handler.OnPopulateContainer();
 
-            container.RootElement.OnElementAppear<Label>(behavioredElement.Attach).Until(null).Every(100);
+            if(container.TryGetByTag(ElementsContainer.Tag, out var containerPrewarmElement))
+            {
+                containerPrewarmElement.OnElementAppear<Label>(behavioredElement.Attach).Until(null).Every(100);
+            }
         }
 
         private void OnReferenceTypeChange(ReferenceTypeChangeEvent changeEvent, ElementsContainer container)
@@ -98,7 +98,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         private BehavioredElement<Button> CreateBehavioredElement(ElementsContainer container)
         {
             var element = new BehavioredElement<Button>(new SelectElementBehaviour());
-            element.RegisterCallback<ClickEvent, (ElementsContainer, BehavioredElement<Button>)>(OnButtonClick, (container, element));
+            element.RegisterCallback<ClickEvent, ElementsContainer, BehavioredElement<Button>>(OnButtonClick, container, element);
             return element;
         }
 
@@ -108,9 +108,9 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             ShowDropDown(data.container, dataButton.worldBound);
         }
 
-        protected override void Deconstruct()
+        protected override void ContainerReleased(ElementsContainer container)
         {
-            base.Deconstruct();
+            base.ContainerReleased(container);
             DropdownWindow.CloseInstance();
         }
 

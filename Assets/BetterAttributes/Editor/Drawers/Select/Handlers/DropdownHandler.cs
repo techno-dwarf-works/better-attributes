@@ -5,6 +5,7 @@ using System.Linq;
 using Better.Attributes.EditorAddons.Extensions;
 using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
+using Better.Attributes.Runtime.Utilities;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Comparers;
@@ -62,8 +63,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         {
             return _collection.GetValues();
         }
-
-
+        
         protected override GUIContent GetResolvedName(object value, DisplayName displayName)
         {
             if (value == null)

@@ -13,23 +13,16 @@ namespace Better.Attributes.Runtime
     {
         private readonly string _displayName;
 
-        public EditorButtonAttribute() : this(string.Empty, null)
+        public EditorButtonAttribute() : this(string.Empty)
         {
         }
-
-        public EditorButtonAttribute(string displayName) : this(displayName, null)
-        {
-        }
-
-        public EditorButtonAttribute(string displayName, params object[] invokeParams)
+        
+        public EditorButtonAttribute(string displayName)
         {
             _displayName = displayName;
             Priority = -1;
             CaptureGroup = -1;
-            InvokeParams = invokeParams;
         }
-
-        public object[] InvokeParams { get; set; }
 
         public int Priority { get; set; }
 
@@ -37,7 +30,7 @@ namespace Better.Attributes.Runtime
 
         private bool IsValidName()
         {
-            return !string.IsNullOrWhiteSpace(_displayName) && !string.IsNullOrWhiteSpace(_displayName);
+            return !string.IsNullOrWhiteSpace(_displayName);
         }
 
         public string GetDisplayName(string name)

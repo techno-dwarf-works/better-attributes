@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using Better.Attributes.Runtime.Manipulation;
 using Better.Commons.EditorAddons.Extensions;
+using Better.Commons.Runtime.Extensions;
 using Better.Internal.Core.Runtime;
 using UnityEditor;
 
@@ -20,26 +22,23 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
         {
             if (_container == null) return false;
             var type = _container.GetType();
-            var field = type.GetField(_userAttribute.MemberName, Defines.FieldsFlags);
+            var memberInfo = type.GetMemberByNameRecursive(_userAttribute.MemberName);
             var memberValue = _userAttribute.MemberValue;
-            if (field != null)
+            if (memberInfo is FieldInfo fieldInfo)
             {
-                var value = field.GetValue(_container);
+                var value = fieldInfo.GetValue(_container);
                 return Equals(memberValue, value);
             }
 
-            var method = type.GetMethod(_userAttribute.MemberName, Defines.MethodFlags);
-            if (method != null)
+            if (memberInfo is MethodInfo methodInfo)
             {
-                return Equals(memberValue, method.Invoke(_container, Array.Empty<object>()));
+                return Equals(memberValue, methodInfo.Invoke(_container, Array.Empty<object>()));
             }
             
-            var property = type.GetProperty(_userAttribute.MemberName, Defines.FieldsFlags);
-            var propertyValue = _userAttribute.MemberValue;
-            if (property != null)
+            if (memberInfo is PropertyInfo propertyInfo)
             {
-                var value = property.GetValue(_container);
-                return Equals(memberValue, propertyValue);
+                var value = propertyInfo.GetValue(_container);
+                return Equals(memberValue, value);
             }
 
             return false;

@@ -44,7 +44,7 @@ namespace Samples
 
         ///This button will call method with predefined parameters. 
         ///When invokeParams not specified will call with null.
-        [EditorButton(InvokeParams = new object[] { 10f })]
+        [EditorButton]
         private void SomeMethod(float floatValue)
         {
             Debug.Log($"{nameof(SomeMethod)}({floatValue})");
@@ -52,7 +52,7 @@ namespace Samples
 
         ///This button will call method with predefined parameters. 
         ///When invokeParams not specified will call with null.
-        [EditorButton(InvokeParams = new object[] { 10f, 10 })]
+        [EditorButton]
         private void SomeMethod(float floatValue, int intValue)
         {
             Debug.Log($"{nameof(SomeMethod)}({floatValue}, {intValue})");

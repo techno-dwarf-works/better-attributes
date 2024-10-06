@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Better.Attributes.EditorAddons.CustomEditors;
-using Better.Attributes.EditorAddons.Helpers;
+using Better.Attributes.EditorAddons.Drawers.EditorButton;
 using Better.Attributes.Runtime.Misc;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.Extensions;
@@ -21,7 +21,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc
     public class DetailedHandler : MiscHandler
     {
         private DetailedAttribute _detailedAttribute;
-        private EditorButtonContainer _buttonContainer;
+        private EditorButtonDrawer _buttonDrawer;
 
         protected override void OnSetupContainer()
         {
@@ -34,12 +34,12 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc
 
             var target = GetValueFromContainer(_container);
 
-            _buttonContainer = new EditorButtonContainer(_container.SerializedObject);
-            _container.CreateElementFrom(_buttonContainer);
+            _buttonDrawer = new EditorButtonDrawer(_container.SerializedObject);
+            _container.CreateElementFrom(_buttonDrawer);
 
             if (target != null)
             {
-                _buttonContainer.CreateFromTarget(target);
+                _buttonDrawer.CreateFromTarget(target);
             }
 
             _container.SerializedPropertyChanged += OnPropertyChanged;
@@ -103,11 +103,11 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc
 
             if (target == null)
             {
-                _buttonContainer.Clear();
+                _buttonDrawer.Clear();
                 return;
             }
 
-            _buttonContainer.CreateFromTarget(target);
+            _buttonDrawer.CreateFromTarget(target);
         }
 
         public override void Deconstruct()

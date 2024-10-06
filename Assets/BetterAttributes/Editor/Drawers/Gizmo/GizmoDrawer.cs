@@ -36,44 +36,25 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
         {
             if (sceneView.drawGizmos)
             {
-                ValidationUtility.ValidateCachedProperties(Handlers);
+                Handlers?.Revalidate();
                 Apply(sceneView);
             }
         }
 
         private void Apply(SceneView sceneView)
         {
-            List<SerializedProperty> keysToRemove = null;
+            Handlers.Revalidate();
+            
             foreach (var gizmo in Handlers)
             {
                 var valueWrapper = gizmo.Value.Handler;
-                if (valueWrapper.Validate())
-                {
-                    valueWrapper.Apply(sceneView);
-                }
-                else
-                {
-                    if (keysToRemove == null)
-                    {
-                        keysToRemove = new List<SerializedProperty>();
-                    }
-
-                    keysToRemove.Add(gizmo.Key);
-                }
-            }
-
-            if (keysToRemove != null)
-            {
-                foreach (var property in keysToRemove)
-                {
-                    Handlers.Remove(property);
-                }
+                valueWrapper.Apply(sceneView);
             }
         }
 
-        protected override void Deconstruct()
+        protected override void ContainerReleased(ElementsContainer container)
         {
-            base.Deconstruct();
+            base.ContainerReleased(container);
             SceneView.duringSceneGui -= OnSceneGUIDelegate;
         }
 

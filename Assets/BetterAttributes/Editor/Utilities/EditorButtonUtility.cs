@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Better.Attributes.Runtime;
 using Better.Internal.Core.Runtime;
 
-namespace Better.Attributes.Runtime
+namespace Better.Attributes.EditorAddons.Utilities
 {
     public static class EditorButtonUtility
     {
@@ -37,13 +38,19 @@ namespace Better.Attributes.Runtime
             return methodButtonsAttributes.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
         }
 
-        public static IEnumerable<KeyValuePair<MethodInfo, IEnumerable<T>>> GetMethodsAttributes<T>(Type type) where T : Attribute
+        private static IEnumerable<KeyValuePair<MethodInfo, IEnumerable<T>>> GetMethodsAttributes<T>(Type type) where T : Attribute
         {
-            return type == null
-                ? Enumerable.Empty<KeyValuePair<MethodInfo, IEnumerable<T>>>()
-                : type.GetMethods(Defines.MethodFlags).Where(x => x.GetCustomAttributes<T>().Any())
-                    .ToDictionary(key => key, value => value.GetCustomAttributes<T>(true))
-                    .Concat(GetMethodsAttributes<T>(type.BaseType));
+            if (type == null)
+            {
+                return Enumerable.Empty<KeyValuePair<MethodInfo, IEnumerable<T>>>();
+            }
+
+            var methodInfos = type.GetMethods(Defines.MethodFlags);
+
+            var infos = methodInfos.Where(methodInfo => methodInfo.IsDefined(typeof(T), true));
+            return infos
+                .ToDictionary(key => key, value => value.GetCustomAttributes<T>(true))
+                .Concat(GetMethodsAttributes<T>(type.BaseType));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Better.Attributes.Runtime
+﻿namespace Better.Attributes.Runtime.Utilities
 {
     public static class LabelDefines
     {

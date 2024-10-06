@@ -12,7 +12,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Misc
         {
             var helpBoxAttribute = (HelpBoxAttribute)_attribute;
 
-            var textOrSelector = helpBoxAttribute.Text;
+            var textOrSelector = helpBoxAttribute.TextOrSelector;
 
             var instance = _container.SerializedProperty.GetLastNonCollectionParent();
             

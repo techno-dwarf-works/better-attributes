@@ -21,5 +21,11 @@ namespace Better.Attributes.EditorAddons.Drawers.Manipulation
             var wrapper = GetHandler(container.SerializedProperty);
             wrapper.UpdateState(container);
         }
+
+        protected override void ContainerReleased(ElementsContainer container)
+        {
+            base.ContainerReleased(container);
+            container.SerializedObjectChanged -= SerializedObjectChanged;
+        }
     }
 }

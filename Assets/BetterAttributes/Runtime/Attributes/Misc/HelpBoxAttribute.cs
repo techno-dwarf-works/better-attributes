@@ -8,11 +8,11 @@ namespace Better.Attributes.Runtime.Misc
     [AttributeUsage(AttributeTargets.Field)]
     public class HelpBoxAttribute : MiscAttribute
     {
-        public HelpBoxAttribute(string text)
+        public HelpBoxAttribute(string textOrSelector)
         {
-            Text = text;
+            TextOrSelector = textOrSelector;
         }
 
-        public string Text { get; }
+        public string TextOrSelector { get; }
     }
 }

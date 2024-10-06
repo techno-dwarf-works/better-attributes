@@ -29,17 +29,12 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 
         private string GetCompiledName()
         {
-            if (Validate())
+            if (_serializedProperty.IsArrayElement())
             {
-                if (_serializedProperty.IsArrayElement())
-                {
-                    return $"{ObjectNames.NicifyVariableName(_serializedProperty.GetArrayPath())}";
-                }
-
-                return _serializedProperty.displayName;
+                return $"{ObjectNames.NicifyVariableName(_serializedProperty.GetArrayPath())}";
             }
 
-            return string.Empty;
+            return _serializedProperty.displayName;
         }
 
         public void SetMode(bool value)
@@ -59,40 +54,8 @@ namespace Better.Attributes.EditorAddons.Drawers.Gizmo
             _serializedProperty = null;
         }
 
-        public virtual bool Validate()
-        {
-            try
-            {
-                if (_serializedProperty == null)
-                {
-                    return false;
-                }
-                
-                if (!_serializedProperty.Verify())
-                {
-                    return false;
-                }
-
-                if (_serializedProperty.IsDisposed())
-                {
-                    return false;
-                }
-
-                return _serializedProperty.serializedObject.targetObject != null;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private protected void SetValueAndApply(object value)
         {
-            if (!Validate())
-            {
-                return;
-            }
-
             if (_fieldType.IsEquivalentTo(typeof(Vector2)))
                 _serializedProperty.vector2Value = (Vector2)value;
             else if (_fieldType.IsEquivalentTo(typeof(Vector3)))

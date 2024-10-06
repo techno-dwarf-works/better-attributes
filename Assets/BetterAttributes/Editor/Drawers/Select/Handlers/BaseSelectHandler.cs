@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
+using Better.Attributes.Runtime.Utilities;
 using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.Drawers.Handlers;
@@ -144,7 +145,8 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
             if (IsSkippingFieldDraw())
             {
                 var label = VisualElementUtility.CreateLabelFor(Container.SerializedProperty);
-                Container.RootElement.Insert(0, label);
+                var element = Container.CreateElementFrom(label);
+                element.SendToBack();
                 label.style.Width(StyleDefinition.LabelWidthStyle);
                 label.SendToBack();
                 label.AddToClassList(PropertyField.labelUssClassName);
