@@ -6,13 +6,13 @@ namespace Better.Attributes.Runtime.Misc
 {
     [Conditional(Defines.Editor)]
     [AttributeUsage(AttributeTargets.Field)]
-    public class HelpBoxAttribute : MiscAttribute
+    public class DetailedAttribute : MiscAttribute
     {
-        public HelpBoxAttribute(string textOrSelector)
-        {
-            TextOrSelector = textOrSelector;
-        }
+        public bool Nested { get; set; }
 
-        public string TextOrSelector { get; }
+        public DetailedAttribute()
+        {
+            Nested = true;
+        }
     }
 }
