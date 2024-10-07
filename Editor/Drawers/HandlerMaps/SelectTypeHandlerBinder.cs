@@ -20,7 +20,7 @@ namespace Better.Attributes.EditorAddons.Drawers.HandlerMaps
             return new HandlersTypeCollection(TypeComparer.Instance)
             {
                 {
-                    typeof(SelectAttribute), new Dictionary<Type, Type>(TypeComparer.Instance)
+                    typeof(SelectAttribute), new Dictionary<Type, Type>(SelectImplementationTypeComparer.Instance)
                     {
                         { typeof(SerializedType), typeof(SelectSerializedTypeHandler) },
                         { typeof(Enum), typeof(SelectEnumHandler) },
