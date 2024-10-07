@@ -50,7 +50,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
         public override bool CheckSupported()
         {
             var baseType = GetFieldOrElementType();
-            return baseType.IsAbstract || baseType.IsInterface;
+            return baseType.IsAbstract || baseType.IsInterface || baseType.HasParameterlessConstructor();
         }
 
         public override bool ValidateSelected(object item)
