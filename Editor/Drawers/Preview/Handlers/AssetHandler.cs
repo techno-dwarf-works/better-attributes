@@ -1,4 +1,5 @@
-﻿using Better.Commons.EditorAddons.Drawers;
+﻿using Better.Attributes.Runtime.Preview;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.Runtime.Extensions;
@@ -9,6 +10,7 @@ using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Preview
 {
+    [HandlerBinding(typeof(Component),typeof(PreviewAttribute))]
     public class AssetHandler : PreviewHandler
     {
         private const string ObjectNotSupportedMessage = "Object is not Component";

@@ -5,14 +5,6 @@ using Better.Internal.Core.Runtime;
 
 namespace Better.Attributes.Runtime.Manipulation
 {
-    public enum ManipulationMode
-    {
-        Show,
-        Hide,
-        Disable,
-        Enable
-    }
-    
     [Conditional(Defines.Editor)]
     [AttributeUsage(AttributeTargets.Field)]
     public abstract class ManipulateAttribute : MultiPropertyAttribute

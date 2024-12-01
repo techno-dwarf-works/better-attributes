@@ -1,11 +1,13 @@
 ﻿using System;
 using Better.Attributes.Runtime.Misc;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
+    [HandlerBinding(typeof(HelpBoxAttribute))]
     public class HelpBoxHandler : MiscHandler
     {
         protected override void OnSetupContainer()

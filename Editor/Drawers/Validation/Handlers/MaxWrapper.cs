@@ -1,11 +1,13 @@
 ﻿using System;
 using Better.Attributes.Runtime.Validation;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
 {
     [Serializable]
+    [HandlerBinding(typeof(MaxAttribute))]
     public class MaxWrapper : PropertyValidationHandler
     {
         public override bool IsSupported()

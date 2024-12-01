@@ -6,6 +6,7 @@ using Better.Commons.EditorAddons.Helpers;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
+    [HandlerBinding(typeof(CustomTooltipAttribute))]
     public class CustomToolTipHandler : MiscLabelHandler
     {
         protected override void OnUpdateLabel(LabelContainer labelContainer)

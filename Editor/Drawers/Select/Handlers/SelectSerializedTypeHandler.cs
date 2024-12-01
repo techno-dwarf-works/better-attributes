@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Better.Attributes.EditorAddons.Comparers;
 using Better.Attributes.EditorAddons.Extensions;
 using Better.Attributes.Runtime;
+using Better.Attributes.Runtime.DrawInspector;
 using Better.Attributes.Runtime.Select;
 using Better.Attributes.Runtime.Utilities;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.DataStructures.SerializedTypes;
@@ -16,6 +19,8 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select
 {
+    
+    [HandlerBinding(typeof(SerializedType), typeof(SelectAttribute))]
     public class SelectSerializedTypeHandler : BaseSelectTypeHandler
     {
         protected override void OnSetup()

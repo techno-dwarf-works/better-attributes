@@ -1,4 +1,6 @@
 ﻿using System;
+using Better.Attributes.Runtime.Gizmo;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
@@ -6,6 +8,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
+    [HandlerBinding(typeof(Vector2), typeof(GizmoLocalAttribute))]
     public class Vector2LocalHandler : GizmoHandler
     {
         private Vector2 _previousValue;

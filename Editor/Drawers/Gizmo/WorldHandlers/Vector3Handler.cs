@@ -1,10 +1,13 @@
 ﻿using System;
+using Better.Attributes.Runtime.Gizmo;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
+    [HandlerBinding(typeof(Vector3), typeof(GizmoAttribute))]
     public class Vector3Handler : GizmoHandler
     {
         private Vector3 _previousValue;

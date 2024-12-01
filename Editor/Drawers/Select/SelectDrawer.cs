@@ -16,7 +16,7 @@ namespace Better.Attributes.EditorAddons.Drawers.Select
 {
     [CustomPropertyDrawer(typeof(SelectAttribute), true)]
     [CustomPropertyDrawer(typeof(DropdownAttribute), true)]
-    public class SelectDrawer : BasePropertyDrawer<BaseSelectHandler, BaseSelectAttribute>
+    public class SelectDrawer : PropertyDrawer<BaseSelectHandler, BaseSelectAttribute>
     {
         //TODO: Consider to use Locators
         private Dictionary<SerializedProperty, BehavioredElement<Button>> _behavioredElements;

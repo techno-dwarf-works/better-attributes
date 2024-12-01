@@ -1,7 +1,10 @@
 ﻿using System;
+using Better.Attributes.Runtime.DrawInspector;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Handlers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
+using Better.Commons.Runtime.Comparers;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
 using UnityEditor;
@@ -11,6 +14,7 @@ using UnityEngine.UIElements;
 namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
 {
     [Serializable]
+    [HandlerBinding(typeof(UnityEngine.Object), typeof(DrawInspectorAttribute))]
     public class DrawInspectorHandler : SerializedPropertyHandler
     {
         private SerializedProperty _property;

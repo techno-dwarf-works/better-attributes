@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 namespace Better.Attributes.EditorAddons.Drawers.DrawInspector
 {
     [CustomPropertyDrawer(typeof(DrawInspectorAttribute), true)]
-    public class DrawInspectorDrawer : BasePropertyDrawer<DrawInspectorHandler, DrawInspectorAttribute>
+    public class DrawInspectorDrawer : PropertyDrawer<DrawInspectorHandler, DrawInspectorAttribute>
     {
         protected override void PopulateContainer(ElementsContainer container)
         {
