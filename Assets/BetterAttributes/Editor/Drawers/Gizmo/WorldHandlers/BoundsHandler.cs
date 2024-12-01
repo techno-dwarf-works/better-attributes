@@ -1,8 +1,12 @@
-﻿using Better.Commons.Runtime.Extensions;
+﻿using Better.Attributes.Runtime.Gizmo;
+using Better.Commons.EditorAddons.Drawers;
+using Better.Commons.Runtime.Extensions;
 using UnityEditor;
+using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
+    [HandlerBinding(typeof(Bounds), typeof(GizmoAttribute))]
     public class BoundsHandler : BoundsBaseHandler
     {
         public override void Apply(SceneView sceneView)

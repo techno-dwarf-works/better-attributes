@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Better.Attributes.Runtime.Validation;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Helpers;
 using Better.Commons.Runtime.Extensions;
@@ -9,6 +10,7 @@ using Better.Internal.Core.Runtime;
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
 {
     [Serializable]
+    [HandlerBinding(typeof(DataValidationAttribute))]
     public class DataValidationHandler : PropertyValidationHandler
     {
         public override ValidationValue<string> Validate()

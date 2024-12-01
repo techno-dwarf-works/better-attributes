@@ -1,5 +1,6 @@
 ﻿using System;
 using Better.Attributes.Runtime.Validation;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine;
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
 {
     [Serializable]
+    [HandlerBinding(typeof(ClampAttribute))]
     public class ClampWrapper : PropertyValidationHandler
     {
         public override bool IsSupported()

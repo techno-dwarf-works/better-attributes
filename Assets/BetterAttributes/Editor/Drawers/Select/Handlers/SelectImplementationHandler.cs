@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Better.Attributes.Runtime.Select;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Enums;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.Runtime.Extensions;
@@ -9,6 +10,7 @@ using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select
 {
+    [HandlerBinding(typeof(SelectAttribute))]
     public class SelectImplementationHandler : BaseSelectTypeHandler
     {
         protected override void OnSetup()

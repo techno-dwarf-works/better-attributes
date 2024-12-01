@@ -1,10 +1,13 @@
 ﻿using System;
+using Better.Attributes.Runtime.Gizmo;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 using UnityEngine;
 
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
+    [HandlerBinding(typeof(Quaternion), typeof(GizmoAttribute))]
     public class QuaternionHandler : GizmoHandler
     {
         private const float Size = 1.1f;

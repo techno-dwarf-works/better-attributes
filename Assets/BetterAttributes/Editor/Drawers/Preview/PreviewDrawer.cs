@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 namespace Better.Attributes.EditorAddons.Drawers.Preview
 {
     [CustomPropertyDrawer(typeof(PreviewAttribute))]
-    public class PreviewDrawer : BasePropertyDrawer<PreviewHandler, PreviewAttribute>
+    public class PreviewDrawer : PropertyDrawer<PreviewHandler, PreviewAttribute>
     {
         protected override void PopulateContainer(ElementsContainer container)
         {

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Better.Attributes.EditorAddons.Comparers;
 using Better.Attributes.EditorAddons.Extensions;
 using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
 using Better.Attributes.Runtime.Utilities;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.Runtime.Extensions;
 using Better.Commons.Runtime.Utility;
@@ -14,6 +16,7 @@ using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select
 {
+    [HandlerBinding(typeof(Enum), typeof(SelectAttribute))]
     public class SelectEnumHandler : BaseSelectHandler
     {
         private Type _enumType;

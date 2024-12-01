@@ -5,6 +5,7 @@ using System.Reflection;
 using Better.Attributes.EditorAddons.CustomEditors;
 using Better.Attributes.EditorAddons.Drawers.EditorButton;
 using Better.Attributes.Runtime.Misc;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Helpers;
@@ -18,6 +19,8 @@ using UnityEngine;
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
     //TODO: add parameters
+    
+    [HandlerBinding(typeof(DetailedAttribute))]
     public class DetailedHandler : MiscHandler
     {
         private DetailedAttribute _detailedAttribute;

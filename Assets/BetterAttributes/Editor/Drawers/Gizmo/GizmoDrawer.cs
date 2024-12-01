@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 namespace Better.Attributes.EditorAddons.Drawers.Gizmo
 {
     [CustomPropertyDrawer(typeof(BaseGizmoAttribute), true)]
-    public class GizmoDrawer : BasePropertyDrawer<GizmoHandler, BaseGizmoAttribute>
+    public class GizmoDrawer : PropertyDrawer<GizmoHandler, BaseGizmoAttribute>
     {
         public const string Hide = "Hide";
         public const string Show = "Show";
