@@ -6,7 +6,7 @@ using UnityEditor;
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
     [CustomPropertyDrawer(typeof(MiscAttribute), true)]
-    public class MiscDrawer : BasePropertyDrawer<MiscHandler, MiscAttribute>
+    public class MiscDrawer : PropertyDrawer<MiscHandler, MiscAttribute>
     {
         protected override void PopulateContainer(ElementsContainer container)
         {

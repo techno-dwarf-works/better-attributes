@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using Better.Attributes.Runtime.Misc;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
@@ -9,6 +11,8 @@ using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
+    
+    [HandlerBinding(typeof(Enum), typeof(EnumButtonsAttribute))]
     public class EnumButtonsHandler : MiscHandler
     {
         private Enum _enum;

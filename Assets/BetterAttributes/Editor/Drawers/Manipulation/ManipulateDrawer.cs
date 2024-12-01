@@ -6,7 +6,7 @@ using UnityEditor;
 namespace Better.Attributes.EditorAddons.Drawers.Manipulation
 {
     [CustomPropertyDrawer(typeof(ManipulateAttribute), true)]
-    public class ManipulateDrawer : BasePropertyDrawer<ManipulateHandler, ManipulateAttribute>
+    public class ManipulateDrawer : PropertyDrawer<ManipulateHandler, ManipulateAttribute>
     {
         protected override void PopulateContainer(ElementsContainer container)
         {

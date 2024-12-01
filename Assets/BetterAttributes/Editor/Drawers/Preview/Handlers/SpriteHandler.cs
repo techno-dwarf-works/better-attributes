@@ -1,9 +1,12 @@
 ﻿using Better.Attributes.EditorAddons.Extensions;
+using Better.Attributes.Runtime.Preview;
+using Better.Commons.EditorAddons.Drawers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Better.Attributes.EditorAddons.Drawers.Preview
 {
+    [HandlerBinding(typeof(Sprite),typeof(PreviewAttribute))]
     public class SpriteHandler : PreviewHandler
     {
         private protected override Texture GenerateTexture(Object drawnObject, float size)

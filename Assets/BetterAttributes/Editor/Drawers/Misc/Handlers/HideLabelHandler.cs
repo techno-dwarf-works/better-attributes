@@ -1,3 +1,4 @@
+using Better.Attributes.Runtime.Misc;
 using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Drawers.Container;
 using Better.Commons.EditorAddons.Extensions;
@@ -7,6 +8,7 @@ using UnityEngine.UIElements;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
+    [HandlerBinding(typeof(HideLabelAttribute))]
     public class HideLabelHandler : MiscLabelHandler
     {
         protected override void OnUpdateLabel(LabelContainer labelContainer)

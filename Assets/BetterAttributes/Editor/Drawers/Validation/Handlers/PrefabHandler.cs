@@ -1,10 +1,13 @@
 ﻿using System;
+using Better.Attributes.Runtime.Validation;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.Runtime.Extensions;
 using UnityEditor;
 
 namespace Better.Attributes.EditorAddons.Drawers.Validation.Handlers
 {
     [Serializable]
+    [HandlerBinding(typeof(PrefabReferenceAttribute))]
     public class PrefabHandler : NotNullHandler
     {
         public override ValidationValue<string> Validate()

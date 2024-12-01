@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Better.Attributes.EditorAddons.Comparers;
 using Better.Attributes.EditorAddons.Extensions;
 using Better.Attributes.Runtime;
 using Better.Attributes.Runtime.Select;
 using Better.Attributes.Runtime.Utilities;
+using Better.Commons.EditorAddons.Drawers;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Comparers;
@@ -16,6 +18,7 @@ using Object = UnityEngine.Object;
 
 namespace Better.Attributes.EditorAddons.Drawers.Select
 {
+    [HandlerBinding(typeof(DropdownAttribute))]
     public class DropdownHandler : BaseSelectHandler
     {
         private IDataCollection _collection = new NoneCollection();

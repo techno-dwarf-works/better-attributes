@@ -4,6 +4,7 @@ using Better.Commons.EditorAddons.Helpers;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc
 {
+    [HandlerBinding(typeof(RenameFieldAttribute))]
     public class RenameFieldHandler : MiscLabelHandler
     {
         protected override void OnUpdateLabel(LabelContainer labelContainer)
