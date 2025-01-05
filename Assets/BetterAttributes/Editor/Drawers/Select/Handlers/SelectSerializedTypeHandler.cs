@@ -9,6 +9,7 @@ using Better.Attributes.Runtime.DrawInspector;
 using Better.Attributes.Runtime.Select;
 using Better.Attributes.Runtime.Utilities;
 using Better.Commons.EditorAddons.Drawers;
+using Better.Commons.EditorAddons.Drawers.HandlerBinding;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.DataStructures.SerializedTypes;
