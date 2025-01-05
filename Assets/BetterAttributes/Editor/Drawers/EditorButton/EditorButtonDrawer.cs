@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Better.Attributes.EditorAddons.Drawers.Parameters;
+using Better.Commons.EditorAddons.Drawers.Proxies;
 using Better.Attributes.EditorAddons.Utilities;
 using Better.Attributes.Runtime;
-using Better.Commons.EditorAddons.Enums;
-using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Utility;
 using Better.Commons.Runtime.Extensions;
-using Better.Commons.Runtime.UIElements;
 using Better.Commons.Runtime.Utility;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -82,7 +79,7 @@ namespace Better.Attributes.EditorAddons.Drawers.EditorButton
             var parameters = methodInfo.GetParameters();
             foreach (var parameterInfo in parameters)
             {
-                if (!ParameterFieldProvider.IsSupported(parameterInfo.ParameterType) || parameterInfo.IsOut)
+                if (!ProxyProvider.IsSupported(parameterInfo.ParameterType) || parameterInfo.IsOut)
                 {
                     return CreateNotSupportedHelpBox(methodInfo, parameterInfo);
                 }
@@ -112,59 +109,101 @@ namespace Better.Attributes.EditorAddons.Drawers.EditorButton
         {
             var prettyMemberName = methodInfo.PrettyMemberName();
 
-            var verticalGroup = VisualElementUtility.CreateVerticalGroup();
-            verticalGroup.name = $"{prettyMemberName}__{nameof(verticalGroup)}";
-            verticalGroup.style
-                .FlexGrow(StyleDefinition.OneStyleFloat)
-                .FlexBasis(0.5f);
-
-            var horizontalGroup = VisualElementUtility.CreateHorizontalGroup();
-            horizontalGroup.name = $"{prettyMemberName}__{nameof(horizontalGroup)}";
-            horizontalGroup.style
-                .FlexGrow(StyleDefinition.OneStyleFloat)
-                .MaxHeight(StyleDefinition.ButtonHeight);
-
-            verticalGroup.Add(horizontalGroup);
-
             var button = new Button
             {
                 text = attribute.GetDisplayName(prettyMemberName),
                 name = prettyMemberName
             };
 
-            var parameters = methodInfo.GetParameters();
-            var datas = parameters.Select(info => new Parameter(info)).ToArray();
-
-            var parametersElement = new ParametersElementDrawer(datas);
-            verticalGroup.Add(parametersElement);
-
-            if (!datas.IsNullOrEmpty())
-            {
-                var toggle = new ToggleButton(value => parametersElement.style.SetVisible(value));
-                toggle.AddIcon(IconType.GrayDropdown);
-                toggle.style.Padding(1f);
-                
-                toggle.text = string.Empty;
-                horizontalGroup.Add(toggle);
-            }
-            else
-            {
-                parametersElement.style.SetVisible(false);
-            }
-
-            horizontalGroup.Add(button);
             button.style.FlexGrow(StyleDefinition.OneStyleFloat);
-            button.RegisterCallback<ClickEvent, MethodInfo, ParametersElementDrawer>(OnClick, methodInfo, parametersElement);
-            return verticalGroup;
+
+            var parameters = methodInfo.GetParameters();
+
+            if (parameters.IsNullOrEmpty())
+            {
+                button.RegisterCallback<ClickEvent, MethodInfo>(OnClick, methodInfo);
+                return button;
+            }
+
+            var datas = parameters.Select(info => new ParameterProxy(info));
+
+            var foldout = SetupFoldout(prettyMemberName);
+
+            var views = CreateViews(datas, foldout);
+            
+            SetupFoldoutToggle(foldout, button);
+
+            var group = views.Select(view => view.style).AsGroup();
+            
+            foldout.RegisterCallback<ChangeEvent<bool>, IStyle>(OnFoldout, group);
+            button.RegisterCallback<ClickEvent, MethodInfo, List<ProxyView<object>>>(OnClick, methodInfo, views);
+            
+            return foldout;
         }
 
-        private void OnClick(ClickEvent clickEvent, (MethodInfo methodInfo, ParametersElementDrawer parameters) data)
+        private Foldout SetupFoldout(string prettyMemberName)
+        {
+            var foldout = new Foldout();
+            foldout.name = $"{prettyMemberName}__{nameof(foldout)}";
+            foldout.style
+                .FlexGrow(StyleDefinition.OneStyleFloat)
+                .FlexBasis(0.5f)
+                .FlexDirection(FlexDirection.Column);
+            
+            foldout.contentContainer.AddToClassList(HelpBox.ussClassName);
+            foldout.contentContainer.style
+                .FlexDirection(FlexDirection.Column)
+                .AlignItems(Align.Stretch);
+            return foldout;
+        }
+
+        private List<ProxyView<object>> CreateViews(IEnumerable<ParameterProxy> datas, Foldout foldout)
+        {
+            var views = new List<ProxyView<object>>();
+            foreach (var parameterProxy in datas)
+            {
+                var parametersElement = new ProxyView<ParameterProxy, object>(parameterProxy);
+                parametersElement.style.FlexGrow(StyleDefinition.OneStyleFloat);
+                views.Add(parametersElement);
+                foldout.contentContainer.Add(parametersElement);
+            }
+
+            return views;
+        }
+
+        private void SetupFoldoutToggle(Foldout foldout, Button button)
+        {
+            var foldoutToggle = foldout.Q<Toggle>();
+            foldoutToggle.Add(button);
+            foldoutToggle.style.Margin(StyleDefinition.ZeroStyleLength);
+            
+            var toggleCheckmark = foldout.Q<VisualElement>(className: Toggle.inputUssClassName);
+            toggleCheckmark.AddToClassList(Button.ussClassName);
+            toggleCheckmark.style.FlexGrow(StyleDefinition.ZeroStyleFloat);
+            toggleCheckmark.Children().Select(child => child.style).AsGroup().Margin(StyleDefinition.OneStyleLength);
+        }
+
+        private void OnFoldout(ChangeEvent<bool> evt, IStyle styleGroup)
+        {
+            var value = evt.newValue;
+            styleGroup.SetVisible(value);
+        }
+
+        private void OnClick(ClickEvent clickEvent, (MethodInfo methodInfo, List<ProxyView<object>> views) data)
         {
             _serializedObject.Update();
-            var parameters = data.parameters;
 
-            //TODO: Validate parameters count and types
-            data.methodInfo.Invoke(_target, parameters.GetData());
+            var parameters = data.views.Select(view => view.value).ToArray();
+            data.methodInfo.Invoke(_target, parameters);
+            EditorUtility.SetDirty(_serializedObject.targetObject);
+            _serializedObject.ApplyModifiedProperties();
+        }
+
+        private void OnClick(ClickEvent clickEvent, MethodInfo methodInfo)
+        {
+            _serializedObject.Update();
+
+            methodInfo.Invoke(_target, null);
             EditorUtility.SetDirty(_serializedObject.targetObject);
             _serializedObject.ApplyModifiedProperties();
         }

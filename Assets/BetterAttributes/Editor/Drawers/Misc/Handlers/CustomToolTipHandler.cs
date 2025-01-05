@@ -2,6 +2,7 @@
 using Better.Attributes.Runtime.Misc;
 using Better.Attributes.Runtime.Utilities;
 using Better.Commons.EditorAddons.Drawers;
+using Better.Commons.EditorAddons.Drawers.HandlerBinding;
 using Better.Commons.EditorAddons.Helpers;
 
 namespace Better.Attributes.EditorAddons.Drawers.Misc

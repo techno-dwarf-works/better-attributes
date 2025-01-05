@@ -2,6 +2,7 @@
 using System.Reflection;
 using Better.Attributes.Runtime.Validation;
 using Better.Commons.EditorAddons.Drawers;
+using Better.Commons.EditorAddons.Drawers.HandlerBinding;
 using Better.Commons.EditorAddons.Extensions;
 using Better.Commons.EditorAddons.Helpers;
 using Better.Commons.Runtime.Extensions;
